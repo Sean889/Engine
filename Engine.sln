@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{2A639BB6-5711-4C02-8A78-558C90D4A302}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadPool", "ThreadPool\ThreadPool.csproj", "{EC9A48CA-1AA8-49EA-9CC2-E4F6F36E6416}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysicsSystem", "PhysicsSystem\PhysicsSystem.csproj", "{4DB2560D-C9A0-4B7F-A36C-0415D139D44A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{18E697BE-E065-4857-8AB6-E98448EF5F41}"
+	ProjectSection(SolutionItems) = preProject
+		ComponentIDs.txt = ComponentIDs.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A639BB6-5711-4C02-8A78-558C90D4A302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A639BB6-5711-4C02-8A78-558C90D4A302}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A639BB6-5711-4C02-8A78-558C90D4A302}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A639BB6-5711-4C02-8A78-558C90D4A302}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC9A48CA-1AA8-49EA-9CC2-E4F6F36E6416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC9A48CA-1AA8-49EA-9CC2-E4F6F36E6416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC9A48CA-1AA8-49EA-9CC2-E4F6F36E6416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC9A48CA-1AA8-49EA-9CC2-E4F6F36E6416}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DB2560D-C9A0-4B7F-A36C-0415D139D44A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DB2560D-C9A0-4B7F-A36C-0415D139D44A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DB2560D-C9A0-4B7F-A36C-0415D139D44A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DB2560D-C9A0-4B7F-A36C-0415D139D44A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,99 @@
+﻿using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EngineSystem
+{
+    using PositionUpdate = Pair<Coord, uint>;
+
+    public class Entity
+    {
+        private const uint DEFAULT_PRIORITY = 1u;
+
+        /// <summary>
+        /// Position update queue.
+        /// Second part of the pair is the priority of the update.
+        /// The highest priority update get applied.
+        /// </summary>
+        private ConcurrentQueue<PositionUpdate> UpdateQueue = new ConcurrentQueue<PositionUpdate>();
+        /// <summary>
+        /// Actual position object.
+        /// </summary>
+        private volatile Coord InternalTransform;
+        /// <summary>
+        /// A thread safe dictionary of the current components attached to this object.
+        /// </summary>
+        private ConcurrentDictionary<uint, IEntityComponent> Components = new ConcurrentDictionary<uint, IEntityComponent>();
+
+        /// <summary>
+        /// Transform property. All access to this property is thread safe.
+        /// Setting this property does not have immediate effects. 
+        /// If another update has a higher priority then that update will be used.
+        /// To set the priority use the SetTransform method.
+        /// </summary>
+        public Coord Transform
+        {
+            get
+            {
+                return InternalTransform;
+            }
+            set
+            {
+                SetTransform(value, DEFAULT_PRIORITY);
+            }
+        }
+
+        public void SetTransform(Coord newTransform, uint priority)
+        {
+            UpdateQueue.Enqueue(new PositionUpdate(newTransform, priority));
+        }
+        public void SetTransform(Coord newTransform)
+        {
+            SetTransform(newTransform, DEFAULT_PRIORITY);
+        }
+
+        public void UpdateTransform()
+        {
+            PositionUpdate update, prev;
+
+            if(UpdateQueue.TryDequeue(out prev))
+            {
+                while(UpdateQueue.TryDequeue(out update))
+                {
+                    if(prev.second < update.second)
+                    {
+                        prev = update;
+                    }
+                }
+
+                InternalTransform = prev.first;
+            }
+        }
+
+        /// <summary>
+        /// Gets the component with the key value.
+        /// </summary>
+        /// <param name="idx"> The key value of the component. </param>
+        /// <returns> The component or null if it wasn't found. </returns>
+        public IEntityComponent GetComponent(uint idx)
+        {
+            IEntityComponent OutComponent = null;
+            if (Components.TryGetValue(idx, out OutComponent))
+                return OutComponent;
+            return null;
+        }
+        /// <summary>
+        /// Attempts to add the component to the object.
+        /// It should work fine if there aren't any conflicting component Ids.
+        /// </summary>
+        /// <param name="Component"> The Component to add. </param>
+        /// <returns> Whether the operation succeded. </returns>
+        public bool AddComponent(IEntityComponent Component)
+        {
+            uint key = Component.GetID();
+            return Components.TryAdd(key, Component);
+        }
+    }
+}
