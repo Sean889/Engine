@@ -30,6 +30,10 @@ namespace ThreadPool
         /// An event used to signal to worker threads that there is work to be done.
         /// </summary>
         private static AutoResetEvent Event;
+        /// <summary>
+        /// An event used to signal to the background task worker thread that there is work to be done.
+        /// </summary>
+        private static AutoResetEvent BackgroundEvent;
 
         /// <summary>
         /// Maximum amount of time a thread will wait before checking whether there is work to do.
@@ -64,9 +68,18 @@ namespace ThreadPool
             Threads = new List<Thread>();
             TerminateFlag = false;
             Event = new AutoResetEvent(false);
+            BackgroundEvent = new AutoResetEvent(false);
 
-            for(int i = 0; i < NumThreads; i++)
             {
+                // Create the background thread
+                Thread t = new Thread(new ThreadStart(BackgroundThreadExecutor));
+                t.Start();
+                Threads.Add(t);
+            }
+
+            for(int i = 1; i < NumThreads; i++)
+            {
+                //Create the normal threadpool threads
                 Thread t = new Thread(new ThreadStart(ThreadExecutor));
                 t.Start();
                 Threads.Add(t);
@@ -110,6 +123,7 @@ namespace ThreadPool
             BackgroundTaskQueue = null;
             Threads = null;
             Event = null;
+            BackgroundEvent = null;
         }
 
         /// <summary>
@@ -171,6 +185,7 @@ namespace ThreadPool
         {
             Promise p = new Promise(Task);
             BackgroundTaskQueue.Enqueue(p);
+            BackgroundEvent.Set();
         }
 
         /// <summary>
@@ -191,6 +206,27 @@ namespace ThreadPool
                     } while (TaskQueue.TryDequeue(out Promise));
                 }
                 else if (BackgroundTaskQueue.TryDequeue(out Promise))
+                {
+                    Promise.Execute();
+                }
+            }
+        }
+        /// <summary>
+        /// Special thread that executes more background tasks.
+        /// </summary>
+        private static void BackgroundThreadExecutor()
+        {
+            while(!TerminateFlag.Value)
+            {
+                BackgroundEvent.WaitOne(THREAD_WAIT);
+
+                PromiseBase Promise;
+                while(TaskQueue.TryDequeue(out Promise))
+                {
+                    Promise.Execute();
+                }
+
+                while(BackgroundTaskQueue.TryDequeue(out Promise))
                 {
                     Promise.Execute();
                 }

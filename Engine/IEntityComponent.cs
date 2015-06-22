@@ -18,8 +18,12 @@ namespace EngineSystem
         uint GetID();
 
         /// <summary>
-        /// Called when the component is removed.
+        /// Called when the component is added to an Entity
         /// </summary>
-        void OnRemove();
+        void OnCreate(Entity e);
+        /// <summary>
+        /// Called when the component is removed from an Entity.
+        /// </summary>
+        void OnRemove(Entity e);
     }
 }

@@ -45,15 +45,27 @@ namespace EngineSystem
             }
         }
 
+        /// <summary>
+        /// Adds a transform update to be set at the end of the frame at the given priority.
+        /// </summary>
+        /// <param name="newTransform"> The new transform. </param>
+        /// <param name="priority"> The priority of the update. The highest priority update gets applied. </param>
         public void SetTransform(Coord newTransform, uint priority)
         {
             UpdateQueue.Enqueue(new PositionUpdate(newTransform, priority));
         }
+        /// <summary>
+        /// Adds a transform update at DEFAULT_PRIORITY priority.
+        /// </summary>
+        /// <param name="newTransform"> The new transform. </param>
         public void SetTransform(Coord newTransform)
         {
             SetTransform(newTransform, DEFAULT_PRIORITY);
         }
 
+        /// <summary>
+        /// Changes the transform to the heighest priority update.
+        /// </summary>
         public void UpdateTransform()
         {
             PositionUpdate update, prev;
@@ -62,7 +74,7 @@ namespace EngineSystem
             {
                 while(UpdateQueue.TryDequeue(out update))
                 {
-                    if(prev.second < update.second)
+                    if(prev.second <= update.second)
                     {
                         prev = update;
                     }
@@ -87,12 +99,14 @@ namespace EngineSystem
         /// <summary>
         /// Attempts to add the component to the object.
         /// It should work fine if there aren't any conflicting component Ids.
+        /// You can't add a type of component more than once.
         /// </summary>
         /// <param name="Component"> The Component to add. </param>
         /// <returns> Whether the operation succeded. </returns>
         public bool AddComponent(IEntityComponent Component)
         {
             uint key = Component.GetID();
+            Component.OnCreate(this);
             return Components.TryAdd(key, Component);
         }
     }
