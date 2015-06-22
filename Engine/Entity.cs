@@ -97,6 +97,28 @@ namespace EngineSystem
             return null;
         }
         /// <summary>
+        /// Gets the component with the key value and casts it to the desired component type.
+        /// </summary>
+        /// <param name="idx"> The key value of the component. </param>
+        /// <returns> The component or null if it wasn't found or couldn't be cast to the type. </returns>
+        public T GetComponent<T>(uint idx) where T: class, IEntityComponent
+        {
+            IEntityComponent Component;
+            if (Components.TryGetValue(idx, out Component))
+            {
+                try
+                {
+                    return (T)Component;
+                }
+                catch(InvalidCastException e)
+                {
+
+                }
+            }
+
+            return null;
+        }
+        /// <summary>
         /// Attempts to add the component to the object.
         /// It should work fine if there aren't any conflicting component Ids.
         /// You can't add a type of component more than once.

@@ -10,13 +10,23 @@ using OpenTK;
 
 namespace PhysicsSystem
 {
-    public class BulletPhysicsSystem : ISystem
+    public class BulletPhysicsSystem : ISystem, IDisposable
     {
-        private DiscreteDynamicsWorld World;
+        private DynamicsWorld World;
         private List<BulletPhysicsComponent> Components = new List<BulletPhysicsComponent>();
         private ConcurrentQueue<BulletPhysicsComponent> ToAdd = new ConcurrentQueue<BulletPhysicsComponent>();
         private ConcurrentQueue<BulletPhysicsComponent> ToRemove = new ConcurrentQueue<BulletPhysicsComponent>();
-        private ConcurrentQueue<Action<DiscreteDynamicsWorld>> Actions = new ConcurrentQueue<Action<DiscreteDynamicsWorld>>();
+        private ConcurrentQueue<Action<DynamicsWorld>> Actions = new ConcurrentQueue<Action<DynamicsWorld>>();
+
+        public bool IsDisposed
+        {
+            get
+            {
+                if (World != null)
+                    return World.IsDisposed;
+                return true;
+            }
+        }
 
         public void Register(Engine Target)
         {
@@ -54,7 +64,7 @@ namespace PhysicsSystem
                 Components.Remove(Component);
             }
 
-            Action<DiscreteDynamicsWorld> Func;
+            Action<DynamicsWorld> Func;
             while(Actions.TryDequeue(out Func))
             {
                 //Execute the function
@@ -62,6 +72,9 @@ namespace PhysicsSystem
             }
         }
 
+        /// <summary>
+        /// Creates the System with a default DiscreteDynamicsWorld
+        /// </summary>
         public BulletPhysicsSystem()
         {
             CollisionConfiguration Config = new DefaultCollisionConfiguration();
@@ -93,9 +106,31 @@ namespace PhysicsSystem
         /// This will allow the action to interface with the DiscreteDynamicsWorld safely.
         /// </summary>
         /// <param name="Action"> The function to be executed. </param>
-        public void ExecuteAction(Action<DiscreteDynamicsWorld> Action)
+        public void ExecuteAction(Action<DynamicsWorld> Action)
         {
             Actions.Enqueue(Action);
+        }
+
+        /// <summary>
+        /// Factory method for creating a BulletPhysicsComponent.
+        /// </summary>
+        /// <param name="Body"> The RigidBody to use for the component. </param>
+        /// <returns> A physics component. </returns>
+        public BulletPhysicsComponent CreateComponent(RigidBody Body)
+        {
+            return new BulletPhysicsComponent(Body, this);
+        }
+
+        void Dispose()
+        {
+            if (World != null)
+                World.Dispose();
+        }
+
+        ~BulletPhysicsSystem()
+        {
+            if (!IsDisposed)
+                World.Dispose();
         }
     }
 }

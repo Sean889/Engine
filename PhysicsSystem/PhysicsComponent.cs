@@ -4,8 +4,16 @@ using OpenTK;
 
 namespace PhysicsSystem
 {
+    /// <summary>
+    /// A physics component.
+    /// The factory method CreateComponent is in BulletPhysicsSystem
+    /// </summary>
     public class BulletPhysicsComponent : MotionState, IEntityComponent
     {
+        /// <summary>
+        /// The ID returned by this class.
+        /// As a const variable it should only be used in the assembly if it could ever be changed.
+        /// </summary>
         internal const uint IID = 10;
 
         internal RigidBody Body;
@@ -19,6 +27,9 @@ namespace PhysicsSystem
         /// </summary>
         private Matrix4d Transform;
 
+        /// <summary>
+        /// Static access to the ID.
+        /// </summary>
         public static uint ID
         {
             get
@@ -27,15 +38,28 @@ namespace PhysicsSystem
             }
         }
 
+        /// <summary>
+        /// Gets the hash ID of this component type.
+        /// </summary>
+        /// <returns></returns>
         public uint GetID()
         {
             return IID;
         }
-        public void OnCreate(Entity e)
+        /// <summary>
+        /// Stores the given Entity as the parent Entity.
+        /// This should only be called when the component is being attached to an Entity.
+        /// </summary>
+        /// <param name="e"></param>
+        void IEntityComponent.OnCreate(Entity e)
         {
             Parent = e;
         }
-        public void OnRemove(Entity e)
+        /// <summary>
+        /// Called when the component is removed from an Entity.
+        /// </summary>
+        /// <param name="e"></param>
+        void IEntityComponent.OnRemove(Entity e)
         {
             System.RemoveObject(this);
         }
