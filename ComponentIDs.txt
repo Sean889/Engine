@@ -1,3 +1,4 @@
+A file keeping track of all used component IDs. When you create a component add its ID here so that there are no ID conflicts
 0	= Invalid ID
 1	= 
 2	= 
