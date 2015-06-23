@@ -16,12 +16,18 @@ namespace PhysicsSystem
         /// </summary>
         internal const uint IID = 10;
 
+        /// <summary>
+        /// The rigidbody that this component contains.
+        /// </summary>
         internal RigidBody Body;
-        internal BulletPhysicsSystem System;
+        /// <summary>
+        /// The parent system.
+        /// </summary>
+        private BulletPhysicsSystem System;
         /// <summary>
         /// The Entity this component is attached to.
         /// </summary>
-        internal Entity Parent;
+        private Entity Parent;
         /// <summary>
         /// A Matrix containing the rotation and translation.
         /// </summary>
@@ -86,6 +92,11 @@ namespace PhysicsSystem
             }
         }
 
+        /// <summary>
+        /// Creates the component.
+        /// </summary>
+        /// <param name="Body"> The rigidbody that this component represents. </param>
+        /// <param name="ParentSys"> The system it is connected to. </param>
         internal BulletPhysicsComponent(RigidBody Body, BulletPhysicsSystem ParentSys)
         {
             this.Body = Body;
