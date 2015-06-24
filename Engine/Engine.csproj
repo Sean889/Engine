@@ -43,11 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AtomicBoolean.cs" />
     <Compile Include="Coord.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Entity.cs" />
-    <Compile Include="EventHandler.cs" />
     <Compile Include="IEntityComponent.cs" />
     <Compile Include="ISystem.cs" />
     <Compile Include="ObjectSystem.cs" />
@@ -56,6 +54,10 @@
     <Compile Include="UpdateEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ThreadingUtils\ThreadingUtils.csproj">
+      <Project>{de1f7e0c-3428-48ce-839d-0b962fa70c3a}</Project>
+      <Name>ThreadingUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThreadPool\ThreadPool.csproj">
       <Project>{ec9a48ca-1aa8-49ea-9cc2-e4f6f36e6416}</Project>
       <Name>ThreadPool</Name>

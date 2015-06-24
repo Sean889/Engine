@@ -4,18 +4,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4DB2560D-C9A0-4B7F-A36C-0415D139D44A}</ProjectGuid>
+    <ProjectGuid>{DE1F7E0C-3428-48CE-839D-0B962FA70C3A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PhysicsSystem</RootNamespace>
-    <AssemblyName>PhysicsSystem</AssemblyName>
+    <RootNamespace>ThreadingUtils</RootNamespace>
+    <AssemblyName>ThreadingUtils</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BulletSharp">
-      <HintPath>..\References\BulletSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>..\References\OpenTK.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,18 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PhysicsComponent.cs" />
+    <Compile Include="AtomicBoolean.cs" />
+    <Compile Include="EventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PysicsSystem.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\Engine.csproj">
-      <Project>{2a639bb6-5711-4c02-8a78-558c90d4a302}</Project>
-      <Name>Engine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ThreadingUtils\ThreadingUtils.csproj">
-      <Project>{de1f7e0c-3428-48ce-839d-0b962fa70c3a}</Project>
-      <Name>ThreadingUtils</Name>
+    <ProjectReference Include="..\ThreadPool\ThreadPool.csproj">
+      <Project>{ec9a48ca-1aa8-49ea-9cc2-e4f6f36e6416}</Project>
+      <Name>ThreadPool</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThreadingUtils;
 
 namespace EngineSystem
 {
@@ -23,7 +24,7 @@ namespace EngineSystem
         /// Event that is triggered everytime the engine updates.
         /// Event handlers will be run on different threads.
         /// </summary>
-        public event EventType<Engine, UpdateEventArgs>.EventAction OnUpdate
+        public event EventAction<Engine, UpdateEventArgs> OnUpdate
         {
             add
             {
@@ -39,7 +40,7 @@ namespace EngineSystem
         /// Use this if state has to be updated in a thread safe way.
         /// Code running in this event should not modify the state of any other systems.
         /// </summary>
-        public event EventType<Engine, EventArgs>.EventAction OnUpdateEnd
+        public event EventAction<Engine, EventArgs> OnUpdateEnd
         {
             add
             {

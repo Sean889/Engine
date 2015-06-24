@@ -7,34 +7,31 @@ using System.Collections.Concurrent;
 
 using TP = ThreadPool;
 
-namespace EngineSystem
+namespace ThreadingUtils
 {
-    public class EventType<TSender, TArgs>
-    {
-        public delegate void EventAction(TSender Sender, TArgs Args);
-    }
+    public delegate void EventAction<TSender, TEventArgs>(TSender Sender, TEventArgs Args);
 
-    internal class ThreadedEventHandler<TSender, TEventArgs> where TSender : class
+    public class ThreadedEventHandler<TSender, TEventArgs> where TSender : class
     {
         private object SyncObject = new object();
-        private ConcurrentQueue<EventType<TSender, TEventArgs>.EventAction> AddQueue = new ConcurrentQueue<EventType<TSender, TEventArgs>.EventAction>();
-        private ConcurrentQueue<EventType<TSender, TEventArgs>.EventAction> RemoveQueue = new ConcurrentQueue<EventType<TSender, TEventArgs>.EventAction>();
-        private List<EventType<TSender, TEventArgs>.EventAction> Actions = new List<EventType<TSender, TEventArgs>.EventAction>();
+        private ConcurrentQueue<EventAction<TSender, TEventArgs>> AddQueue = new ConcurrentQueue<EventAction<TSender, TEventArgs>>();
+        private ConcurrentQueue<EventAction<TSender, TEventArgs>> RemoveQueue = new ConcurrentQueue<EventAction<TSender, TEventArgs>>();
+        private List<EventAction<TSender, TEventArgs>> Actions = new List<EventAction<TSender, TEventArgs>>();
 
         private List<TP.Future> Futures = new List<TP.Future>();
 
-        internal void AddEventListener(EventType<TSender, TEventArgs>.EventAction e)
+        public void AddEventListener(EventAction<TSender, TEventArgs> e)
         {
             AddQueue.Enqueue(e);
         }
-        internal void RemoveEventListener(EventType<TSender, TEventArgs>.EventAction e)
+        public void RemoveEventListener(EventAction<TSender, TEventArgs> e)
         {
             RemoveQueue.Enqueue(e);
         }
 
-        internal void Fire(TSender tSender, TEventArgs tArgs)
+        public void Fire(TSender tSender, TEventArgs tArgs)
         {
-            EventType<TSender, TEventArgs>.EventAction Action;
+            EventAction<TSender, TEventArgs> Action;
             lock (SyncObject)
             {
                 while (AddQueue.TryDequeue(out Action))
@@ -47,7 +44,7 @@ namespace EngineSystem
                     Actions.Remove(Action);
                 }
 
-                foreach (EventType<TSender, TEventArgs>.EventAction tAct in Actions)
+                foreach (EventAction<TSender, TEventArgs> tAct in Actions)
                 {
                     Futures.Add(TP.ThreadPoolManager.QueueAsync(
                         new Action(delegate
@@ -57,7 +54,7 @@ namespace EngineSystem
                 }
             }
         }
-        internal void Wait()
+        public void Wait()
         {
             lock(SyncObject)
             {

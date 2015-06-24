@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace EngineSystem
+namespace ThreadingUtils
 {
 #pragma warning disable 420
     public struct AtomicBoolean
@@ -68,5 +68,16 @@ namespace EngineSystem
         {
             value = Value ? 1 : 0;
         }
+
+        /// <summary>
+        /// Creates a new AtomicBoolean with the given value.
+        /// </summary>
+        /// <param name="value"> The value to initialize the AtomicBoolean with. </param>
+        /// <returns></returns>
+        public static implicit operator AtomicBoolean(bool value)
+        {
+            return new AtomicBoolean(value);
+        }
     }
 }
+
