@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Engine.Messaging
+namespace EngineSystem.Messaging
 {
     public interface IEvent
     {

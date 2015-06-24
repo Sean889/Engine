@@ -1,50 +1,103 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- 
-  Use this file to keep track of message IDs.
+  Use this file to keep track of event IDs.
+  It will be used to generate Event classes.
   
   Format:
-    - Have each message stored within a "message" node
-    - Use the "id" node to store the actual id
-    - Use the "name" node for the event name
-    - Use the "desc" node to add a description. The description is optional but the node has to be there.
+    - Each using node will mark a using directive
+    - All nodes must be put in. Even if they are empty. (Excluding "field" nodes)
+    
+    - The "event" node
+      - Registers one type of event
+      - The "id" node contains the ID of the event
+      - The "name" node contains the name of the event
+      - The "desc" contains a description. The desctription will be put as a comment in front of the generated event class.
+      - The "fields" node
+        - Contains any number of "field" nodes
+        - The "field" node
+          - Creates a field in the generated class
+          - Will be used in the generation of the constructor
+          - The "type" subnode marks the type of the field
+          - The "name" subnode marks the name of the field
+          
 -->
-
-<messages>
-  <message>
-    <id>0</id>
-    <name>InvalidEvent</name>
-    <desc> An Invalid Event. Fired in case of an error in the message passing system. </desc>
-    <!-- This event will be fired if the original event is not valid or cannot be thrown. 
+<root>
+  <usings>
+    <using>System</using>
+    <using>OpenTK</using>
+    <using>OpenTK.Graphics</using>
+  </usings>
+  
+  <events>
+    <event>
+      <id>0</id>
+      <name>InvalidEvent</name>
+      <desc> An Invalid Event. Fired in case of an error in the event passing system. </desc>
+      <fields>
+        <field>
+          <type>String</type>
+          <name>Error</name>
+        </field>
+      </fields>
+      <!-- This event will be fired if the original event is not valid or cannot be thrown. 
           It will include an error message. -->
-  </message>
-  <message>
-    <id>10</id>
-    <name>EntityCreateEvent</name>
-    <desc> Fired when an Entity is added to the EntitySystem. </desc>
-  </message>
-  <message>
-    <id>11</id>
-    <name>EntityDestroyEvent</name>
-    <desc> Fired when an Entity is removed from the EntitySystem. </desc>
-  </message>
-  <message>
-    <id>20</id>
-    <name>KeyPressedEvent</name>
-    <desc> Fired when a key is pressed. </desc>
-  </message>
-  <message>
-    <id>21</id>
-    <name>KeyReleasedEvent</name>
-    <desc> Fired when a key is released. </desc>
-  </message>
-  <message>
-    <id>22</id>
-    <name>KeyRepeatEvent</name>
-    <desc> Fired when a key repeats due to being pressed down for longer. </desc>
-  </message>
-  <message>
-    <id>30</id>
-    <name>WindowResizeEvent</name>
-    <desc> Fired by the rendering system when the window is resized. </desc>
-  </message>
-</messages>
+    </event>
+
+    <event>
+      <id>10</id>
+      <name>EntityCreateEvent</name>
+      <desc> Fired when an Entity is added to the EntitySystem. </desc>
+      <fields>
+        <field>
+          <type>Entity</type>
+          <name>CreatedEntity</name>
+        </field>
+      </fields>
+    </event>
+
+    <event>
+      <id>11</id>
+      <name>EntityDestroyEvent</name>
+      <desc> Fired when an Entity is removed from the EntitySystem. </desc>
+      <fields>
+        <field>
+          <type>Entity</type>
+          <name>DestroyedEntity</name>
+        </field>
+      </fields>
+    </event>
+
+    <event>
+      <id>20</id>
+      <name>KeyPressedEvent</name>
+      <desc> Fired when a key is pressed. </desc>
+      <fields>
+        <field>
+          <type>KeyPressEventArgs</type>
+          <name>Args</name>
+        </field>
+      </fields>
+    </event>
+
+    <event>
+      <id>21</id>
+      <name>KeyReleasedEvent</name>
+      <desc> Fired when a key is released. </desc>
+      <fields></fields>
+    </event>
+
+    <event>
+      <id>22</id>
+      <name>KeyRepeatEvent</name>
+      <desc> Fired when a key repeats due to being pressed down for longer. </desc>
+      <fields></fields>
+    </event>
+
+    <event>
+      <id>30</id>
+      <name>WindowResizeEvent</name>
+      <desc> Fired by the rendering system when the window is resized. </desc>
+      <fields></fields>
+    </event>
+  </events>
+</root>
