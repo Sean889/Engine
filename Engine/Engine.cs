@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EngineSystem
 {
     using UpdateEventHandler = ThreadedEventHandler<Engine, UpdateEventArgs>;
-    using UpdateEndEventHandler = ThreadedEventHandler<Engine, Null>;
+    using UpdateEndEventHandler = ThreadedEventHandler<Engine, EventArgs>;
 
     /// <summary>
     /// Central engine class.
@@ -39,7 +39,7 @@ namespace EngineSystem
         /// Use this if state has to be updated in a thread safe way.
         /// Code running in this event should not modify the state of any other systems.
         /// </summary>
-        public event EventType<Engine, Null>.EventAction OnUpdateEnd
+        public event EventType<Engine, EventArgs>.EventAction OnUpdateEnd
         {
             add
             {

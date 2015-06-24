@@ -50,7 +50,6 @@
     <Compile Include="EventHandler.cs" />
     <Compile Include="IEntityComponent.cs" />
     <Compile Include="ISystem.cs" />
-    <Compile Include="Null.cs" />
     <Compile Include="ObjectSystem.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

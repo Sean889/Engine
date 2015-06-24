@@ -51,7 +51,7 @@ namespace EngineSystem
         /// Updates the positions of the objects. 
         /// If this is called recursively it will deadlock. 
         /// </summary>
-        private void UpdateEndCallback(Engine Sender, Null Args)
+        private void UpdateEndCallback(Engine Sender, EventArgs Args)
         {
             lock(SyncObject)
             {

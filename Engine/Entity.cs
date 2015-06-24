@@ -110,6 +110,7 @@ namespace EngineSystem
                 {
                     return (T)Component;
                 }
+#pragma warning disable 168
                 catch(InvalidCastException e)
                 {
 
