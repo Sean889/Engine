@@ -55,10 +55,6 @@
       <Project>{2a639bb6-5711-4c02-8a78-558c90d4a302}</Project>
       <Name>Engine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ThreadingUtils\ThreadingUtils.csproj">
-      <Project>{de1f7e0c-3428-48ce-839d-0b962fa70c3a}</Project>
-      <Name>ThreadingUtils</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
