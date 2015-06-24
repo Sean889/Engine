@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+  Use this file to keep track of message IDs.
+  
+  Format:
+    - Have each message stored within a "message" node
+    - Use the "id" node to store the actual id
+    - Use the "name" node for the event name
+    - Use the "desc" node to add a description. The description is optional but the node has to be there.
+-->
+
+<messages>
+  <message>
+    <id>0</id>
+    <name>InvalidEvent</name>
+    <desc> An Invalid Event. Fired in case of an error in the message passing system. </desc>
+    <!-- This event will be fired if the original event is not valid or cannot be thrown. 
+          It will include an error message. -->
+  </message>
+  <message>
+    <id>10</id>
+    <name>EntityCreateEvent</name>
+    <desc> Fired when an Entity is added to the EntitySystem. </desc>
+  </message>
+  <message>
+    <id>11</id>
+    <name>EntityDestroyEvent</name>
+    <desc> Fired when an Entity is removed from the EntitySystem. </desc>
+  </message>
+  <message>
+    <id>20</id>
+    <name>KeyPressedEvent</name>
+    <desc> Fired when a key is pressed. </desc>
+  </message>
+  <message>
+    <id>21</id>
+    <name>KeyReleasedEvent</name>
+    <desc> Fired when a key is released. </desc>
+  </message>
+  <message>
+    <id>22</id>
+    <name>KeyRepeatEvent</name>
+    <desc> Fired when a key repeats due to being pressed down for longer. </desc>
+  </message>
+  <message>
+    <id>30</id>
+    <name>WindowResizeEvent</name>
+    <desc> Fired by the rendering system when the window is resized. </desc>
+  </message>
+</messages>
