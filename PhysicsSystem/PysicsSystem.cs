@@ -45,7 +45,7 @@ namespace PhysicsSystem
             //Move the simulation ahead
             World.StepSimulation(Args.TimePassed, 5);
         }
-        private void UpdateEnd(Engine Sender, Null Args)
+        private void UpdateEnd(Engine Sender, EventArgs Args)
         {
             BulletPhysicsComponent Component;
             while(ToAdd.TryDequeue(out Component))
@@ -121,7 +121,7 @@ namespace PhysicsSystem
             return new BulletPhysicsComponent(Body, this);
         }
 
-        void Dispose()
+        public void Dispose()
         {
             if (World != null)
                 World.Dispose();
