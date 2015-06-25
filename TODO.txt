@@ -1,0 +1,70 @@
+Use this file to keep track of what needs to be done.
+Add anything that isn't included.
+
+ - Graphics System (Sean)
+	- Implement some basic object renderer components
+	- Implement any missing events
+		- Put any here
+
+ - Audio System (Open)
+	- Implement audio system (Probably using OpenTK.Audio which is a wrapper for OpenAL)
+
+ - AI
+	- This should be delayed until we figure out what the AI actually has to do
+
+ - Planets
+	- Procedural generation
+		- Time of genration (Need to decide when)
+			- Generate once and save to disk. Don't generate after.
+				- Uses lots of disk space. 
+				- Can use more detail.
+				- Slow to create new planets.
+			- Generate on startup. This would be a good background task.
+				- Can create new planets faster.
+				- Saves disk space.
+				- Can happen while the game is running.
+			- Generate on the fly. 
+				- Generate the mesh as needed (Probably from a fractal function)
+				- Makes creating a new planet the same as drawing it
+	- Get dynamic LOD to work 
+		- Generate on the fly vs using pregenerated
+		- Decide on LOD technique
+			- ROAM
+				- Pros
+					- Optimal mesh for rendering
+					- No seams in the mesh
+				- Cons
+					- Makes the whole mesh dynamic (Has to be reuploaded each frame)
+					- This will probably end up being slower than the other implementations
+					- Can't really be done on the GPU
+					- Slow
+					- Lots of bookkeeping to manage the triangle structure
+			- Chunked LOD
+				- Pros
+					- Doesn't have to change every frame
+					- Easy regular tree structure
+					- Easy to integrate with static heightmaps
+					- Each individual mesh section is static
+					- Can be integrated with paging if a truly large mesh needs to be rendered
+				- Cons
+					- Needs some sort of skirt to prevent seams from occuring
+					- Still needs the CPU to check if the tree needs to be split
+					- Mesh generated on the CPU
+			- Add other implementations here
+	- Atmosphere
+		- Atmospheric scattering
+		- Should use Sean O'Niel's "Precomputed Atmospheric Scattering" (See article on gamasutra)
+	- Water
+		- Reflection
+		- Waves
+			- Actually deform the mesh to simulate waves
+		- Replace with lava in some circumstances (This would be really cool, Secondary though)
+			- Actually make it glow
+	- Rocks and plants (This is secondary)
+	- Write a graphics component for the planet
+
+ - Stars
+	- Use LOD from the planet
+	- Use as principal light source
+	- Allow starts to be generated
+				
