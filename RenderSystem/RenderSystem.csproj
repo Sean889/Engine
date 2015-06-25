@@ -48,6 +48,7 @@
     <Compile Include="RenderSystem.cs" />
     <Compile Include="RenderThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TexturedObjectComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
