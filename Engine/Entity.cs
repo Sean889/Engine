@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EngineSystem.Messaging;
 
 namespace EngineSystem
 {
@@ -26,6 +27,10 @@ namespace EngineSystem
         /// A thread safe dictionary of the current components attached to this object.
         /// </summary>
         private ConcurrentDictionary<uint, IEntityComponent> Components = new ConcurrentDictionary<uint, IEntityComponent>();
+        /// <summary>
+        /// The engine's event manager.
+        /// </summary>
+        private EventManager Manager = new EventManager();
 
         /// <summary>
         /// Transform property. All access to this property is thread safe.

@@ -26,13 +26,14 @@
     <using>System</using>
     <using>OpenTK</using>
     <using>OpenTK.Graphics</using>
+    <using>OpenTK.Input</using>
   </usings>
   
   <events>
     <event>
       <id>0</id>
       <name>InvalidEvent</name>
-      <desc> An Invalid Event. Fired in case of an error in the event passing system. </desc>
+      <desc>An Invalid Event. Fired in case of an error in the event passing system.</desc>
       <fields>
         <field>
           <type>String</type>
@@ -45,8 +46,8 @@
 
     <event>
       <id>10</id>
-      <name>EntityCreateEvent</name>
-      <desc> Fired when an Entity is added to the EntitySystem. </desc>
+      <name>EntityCreatedEvent</name>
+      <desc>Fired when an Entity is added to the EntitySystem.</desc>
       <fields>
         <field>
           <type>Entity</type>
@@ -57,8 +58,8 @@
 
     <event>
       <id>11</id>
-      <name>EntityDestroyEvent</name>
-      <desc> Fired when an Entity is removed from the EntitySystem. </desc>
+      <name>EntityDestroyedEvent</name>
+      <desc>Fired when an Entity is removed from the EntitySystem.</desc>
       <fields>
         <field>
           <type>Entity</type>
@@ -68,36 +69,142 @@
     </event>
 
     <event>
-      <id>20</id>
-      <name>KeyPressedEvent</name>
-      <desc> Fired when a key is pressed. </desc>
+      <id>30</id>
+      <name>WindowResizeEvent</name>
+      <desc>Fired by the rendering system when the window is resized.</desc>
       <fields>
         <field>
-          <type>KeyPressEventArgs</type>
-          <name>Args</name>
+          <type>int</type>
+          <name>SizeX</name>
+        </field>
+        <field>
+          <type>int</type>
+          <name>SizeY</name>
         </field>
       </fields>
     </event>
 
     <event>
-      <id>21</id>
-      <name>KeyReleasedEvent</name>
-      <desc> Fired when a key is released. </desc>
-      <fields></fields>
+      <id>31</id>
+      <name>WindowClosingEvent</name>
+      <desc>Fired by the rendering system when the rendering window is being closed.</desc>
+      <fields>
+        <field>
+          <type>System.ComponentModel.CancelEventArgs</type>
+          <name>EventArgs</name>
+        </field>
+      </fields>
+    </event>
+    
+    <event>
+      <id>32</id>
+      <name>MouseWheelEvent</name>
+      <desc>Fired when the mouse wheel is moved.</desc>
+      <fields>
+        <field>
+          <type>MouseWheelEventArgs</type>
+          <name>EventArgs</name>
+        </field>
+      </fields>
     </event>
 
     <event>
-      <id>22</id>
-      <name>KeyRepeatEvent</name>
-      <desc> Fired when a key repeats due to being pressed down for longer. </desc>
-      <fields></fields>
+      <id>33</id>
+      <name>MouseDownEvent</name>
+      <desc>Fired when a mouse button is pressed.</desc>
+      <fields>
+        <field>
+          <type>MouseButtonEventArgs</type>
+          <name>EventArgs</name>
+        </field>
+      </fields>
     </event>
 
     <event>
-      <id>30</id>
-      <name>WindowResizeEvent</name>
-      <desc> Fired by the rendering system when the window is resized. </desc>
+      <id>34</id>
+      <name>MouseUpEvent</name>
+      <desc>Fired when the mouse button is released.</desc>
+      <fields>
+        <field>
+          <type>MouseButtonEventArgs</type>
+          <name>EventArgs</name>
+        </field>
+      </fields>
+    </event>
+
+    <event>
+      <id>35</id>
+      <name>MouseMoveEvent</name>
+      <desc>Fired when the mouse is moved.</desc>
+      <fields>
+        <field>
+          <type>MouseMoveEventArgs</type>
+          <name>EventArgs</name>
+        </field>
+      </fields>
+    </event>
+
+    <event>
+      <id>36</id>
+      <name>MouseEnterEvent</name>
+      <desc>Fired when the mouse moves over the window.</desc>
       <fields></fields>
     </event>
+
+    <events>
+      <id>37</id>
+      <name>MouseLeaveEvent</name>
+      <desc>Fired when the mouse moves off the window.</desc>
+      <fields></fields>
+    </events>
+
+    <event>
+      <id>37</id>
+      <name>KeyPressedEvent</name>
+      <desc>Fired when a key is pressed.</desc>
+      <fields>
+        <field>
+          <type>KeyPressEventArgs</type>
+          <name>EventArgs</name>
+        </field>
+      </fields>
+    </event>
+
+    <event>
+      <id>38</id>
+      <name>KeyDownEvent</name>
+      <desc>Fired when a key is held down.</desc>
+      <fields>
+        <field>
+          <type>OpenTK.Input.KeyboardKeyEventArgs</type>
+          <name>EventArgs</name>
+        </field>
+      </fields>
+    </event>
+
+    <event>
+      <id>39</id>
+      <name>KeyUpEvent</name>
+      <desc>Fired when a key is released.</desc>
+      <fields>
+        <field>
+          <type>OpenTK.Input.KeyboardKeyEventArgs</type>
+          <name>EventArgs</name>
+        </field>
+      </fields>
+    </event>
+
+    <event>
+      <id>40</id>
+      <name>TitleChangedEvent</name>
+      <desc>Fired when the title changed on the window.</desc>
+      <fields>
+        <field>
+          <type>String</type>
+          <name>NewTitle</name>
+        </field>
+      </fields>
+    </event>
+    
   </events>
 </root>

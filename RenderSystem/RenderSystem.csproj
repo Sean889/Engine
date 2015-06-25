@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AtomicBoolean.cs" />
+    <Compile Include="RenderComponent.cs" />
+    <Compile Include="RenderSystem.cs" />
     <Compile Include="RenderThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

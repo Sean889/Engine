@@ -13,17 +13,6 @@ namespace EngineSystem.Messaging
         private ConcurrentDictionary<uint, ThreadedEventHandler<Object, IEvent>> EventHandlers = new ConcurrentDictionary<uint, ThreadedEventHandler<object, IEvent>>();
         private ConcurrentQueue<uint> ActiveEvents = new ConcurrentQueue<uint>();
 
-        private void FireInvalidEvent(string Error)
-        {
-            InvalidEvent Event = new InvalidEvent(Error);
-
-            ThreadedEventHandler<Object, IEvent> Handler;
-            if (EventHandlers.TryGetValue(0, out Handler))
-            {
-                Handler.Fire(this, Event);
-            }
-        }
-
         /// <summary>
         /// Fires the Event using the given Event
         /// </summary>
@@ -45,6 +34,11 @@ namespace EngineSystem.Messaging
                 ActiveEvents.Enqueue(Event.GetID());
             }
         }
+        /// <summary>
+        /// Adds an event handler that listens to a specific event.
+        /// </summary>
+        /// <param name="ID"> The ID of the event to listen to. </param>
+        /// <param name="EventHandler"> The function to be called to handle the event. </param>
         public void AddEventHandler(uint ID, EventAction<Object, IEvent> EventHandler)
         {
             if (EventHandler == null)
@@ -62,6 +56,11 @@ namespace EngineSystem.Messaging
                 EventHandlers.TryAdd(ID, Handler);
             }
         }
+        /// <summary>
+        /// Removes an event handler.
+        /// </summary>
+        /// <param name="ID"> The ID of the message that the handler is listening to. </param>
+        /// <param name="EventHandler"> The EventHandler to be removed. </param>
         public void RemoveEventHandler(uint ID, EventAction<Object, IEvent> EventHandler)
         {
             if (EventHandler == null)
@@ -74,9 +73,9 @@ namespace EngineSystem.Messaging
             }
         }
 
-        public void Register(Engine Target)
+        void ISystem.Register(Engine Target)
         {
-            
+            Target.OnUpdateEnd += UpdateEnd;
         }
 
         private void UpdateEnd(Engine Eng, EventArgs Args)
@@ -96,6 +95,16 @@ namespace EngineSystem.Messaging
                         Handler.Wait();
                     }
                 }
+            }
+        }
+        private void FireInvalidEvent(string Error)
+        {
+            InvalidEvent Event = new InvalidEvent(Error);
+
+            ThreadedEventHandler<Object, IEvent> Handler;
+            if (EventHandlers.TryGetValue(0, out Handler))
+            {
+                Handler.Fire(this, Event);
             }
         }
     }

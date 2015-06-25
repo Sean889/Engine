@@ -49,7 +49,7 @@ A file keeping track of all used component IDs. When you create a component add 
 47	= 
 48	= 
 49	= 
-50	= 
+50	= GraphicsComponent
 51	= 
 52	= 
 53	= 

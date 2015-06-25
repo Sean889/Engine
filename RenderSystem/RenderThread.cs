@@ -32,6 +32,7 @@ namespace RenderSystem
         private volatile bool TerminateFlag = false;
         private GameWindow Window;
         private Thread ExecutorThread;
+        private Engine Engine;
 
         public delegate void TEventFunc<TArgs>(Object Obj, TArgs Args);
 
@@ -71,38 +72,6 @@ namespace RenderSystem
         }
 
         /// <summary>
-        /// Creates a window with the given width and height.
-        /// </summary>
-        /// <param name="Width"> The width of the window in pixels. </param>
-        /// <param name="Height"> The height of the window in pixels. </param>
-        public RenderThread(int Width, int Height)
-        {
-            Window = new GameWindow(Width, Height);
-        }
-        /// <summary>
-        /// Creates a window with the given width, height and title.
-        /// </summary>
-        /// <param name="Width"> The width of the window in pixels. </param>
-        /// <param name="Height"> The height of the window in pixels. </param>
-        /// <param name="Title"> The title of the window. </param>
-        public RenderThread(int Width, int Height, string Title)
-        {
-            Window = new GameWindow(Width, Height, new GraphicsMode(), Title);
-            Init();
-        }
-        /// <summary>
-        /// Creates a rendering thread and window with the given width, height, title and OpenGL context version.
-        /// </summary>
-        /// <param name="Width"> The width of the window. </param>
-        /// <param name="Height"> The height of the window. </param>
-        /// <param name="Title"> The title of the window. </param>
-        /// <param name="GLMajorVersion"> The major version of the OpenGL context. </param>
-        /// <param name="GLMinorVersion"> The minor version of the OpenGL context. </param>
-        public RenderThread(int Width, int Height, string Title, int GLMajorVersion, int GLMinorVersion)
-        {
-            Window = new GameWindow(Width, Height, new GraphicsMode(), Title, GameWindowFlags.Default, DisplayDevice.Default, GLMajorVersion, GLMinorVersion, GraphicsContextFlags.Default);
-        }
-        /// <summary>
         /// Creates the rendering thread using the given GameWindow.
         /// </summary>
         /// <param name="Window"> The window that the rendering thread will use. </param>
@@ -110,6 +79,11 @@ namespace RenderSystem
         {
             this.Window = Window;
             Init();
+        }
+
+        internal void SetEngine(Engine e)
+        {
+            Engine = e;
         }
 
         private void ThreadExecutor()
@@ -121,7 +95,11 @@ namespace RenderSystem
             Window.Resize += (sender, e) =>
                 {
                     GL.Viewport(Window.Size);
+
+                    
                 };
+
+
 
             while(!TerminateFlag)
             {
