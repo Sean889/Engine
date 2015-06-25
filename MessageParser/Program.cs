@@ -49,7 +49,7 @@ namespace MessageParser
         {
             args = new string[2];
 
-            args[0] = "D:\\Projects\\Projects\\C#\\Engine\\MessageIDs.xml";
+            args[0] = "D:\\Projects\\Projects\\C#\\Engine\\Messages.xml";
             args[1] = "D:\\Projects\\Projects\\C#\\Engine\\Engine\\Messages.cs";
 
             if(args.Length < 2)
@@ -105,7 +105,7 @@ namespace MessageParser
 
                     foreach (Pair<string, string> Field in Fields)
                     {
-                        Lines.Add("\t\tpublic " + Field.First + " " + Field.Second + ";");
+                        Lines.Add("\t\tpublic readonly " + Field.First + " " + Field.Second + ";");
                     }
 
                     Lines.Add("\t\tpublic uint GetID()");
@@ -147,8 +147,6 @@ namespace MessageParser
             }
 
             Lines.Add("}");
-
-            
 
             foreach(DataType D1 in IDs)
             {
