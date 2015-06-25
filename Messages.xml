@@ -205,6 +205,29 @@
         </field>
       </fields>
     </event>
+
+    <event>
+      <id>41</id>
+      <name>WindowMovedEvent</name>
+      <desc>Fired when the window is moved.</desc>
+      <fields>
+        <field>
+          <type>int</type>
+          <name>NewPosX</name>
+        </field>
+        <field>
+          <type>int</type>
+          <name>NewPosY</name>
+        </field>
+      </fields>
+    </event>
+
+    <event>
+      <id>42</id>
+      <name>MouseLeaveEvent</name>
+      <desc>Fired when the mouse moves off the window.</desc>
+      <fields></fields>
+    </event>
     
   </events>
 </root>

@@ -4,6 +4,7 @@ using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
+using EngineSystem.Messaging;
 
 namespace RenderSystem
 {
@@ -25,7 +26,7 @@ namespace RenderSystem
         private volatile bool TerminateFlag = false;
         private GameWindow Window;
         private Thread ExecutorThread;
-        private Engine Engine;
+        private EventManager EventDispatcher;
 
         public delegate void TEventFunc<TArgs>(Object Obj, TArgs Args);
 
@@ -76,7 +77,7 @@ namespace RenderSystem
 
         internal void SetEngine(Engine e)
         {
-            Engine = e;
+            EventDispatcher = e.EventManager;
         }
 
         private void ThreadExecutor()
@@ -85,14 +86,28 @@ namespace RenderSystem
 
             Window.MakeCurrent();
 
+            //Fired when the window resizes
             Window.Resize += (sender, e) =>
                 {
                     GL.Viewport(Window.Size);
-
-                    
+                    EventDispatcher.FireEvent(new WindowResizeEvent(Window.Size.Width, Window.Size.Height));
                 };
 
+            //Fired when the window is moved
+            Window.Move += (sender, e) => EventDispatcher.FireEvent(new WindowMovedEvent(Window.Location.X, Window.Location.Y));
 
+            //Key events
+            Window.KeyPress += (sender, e) => EventDispatcher.FireEvent(new KeyPressedEvent(e));
+            Window.KeyDown += (sender, e) => EventDispatcher.FireEvent(new KeyDownEvent(e));
+            Window.KeyUp += (sender, e) => EventDispatcher.FireEvent(new KeyUpEvent(e));
+
+            //Mouse events
+            Window.MouseEnter += (sender, e) => EventDispatcher.FireEvent(new MouseEnterEvent());
+            Window.MouseLeave += (sender, e) => EventDispatcher.FireEvent(new MouseLeaveEvent());
+            Window.MouseDown += (sender, e) => EventDispatcher.FireEvent(new MouseDownEvent(e));
+            Window.MouseUp += (sender, e) => EventDispatcher.FireEvent(new MouseUpEvent(e));
+            Window.MouseWheel += (sender, e) => EventDispatcher.FireEvent(new MouseWheelEvent(e));
+            Window.MouseMove += (sender, e) => EventDispatcher.FireEvent(new MouseMoveEvent(e));
 
             while(!TerminateFlag)
             {

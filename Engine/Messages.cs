@@ -1,6 +1,7 @@
-using OpenTK;
-using OpenTK.Input;
 using System;
+using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Input;
 
 namespace EngineSystem.Messaging
 {
@@ -240,6 +241,40 @@ namespace EngineSystem.Messaging
 		public TitleChangedEvent( String NewTitle)
 		{
 			this.NewTitle = NewTitle;
+		}
+	}
+
+	/// <summary> 
+	/// Fired when the window is moved.
+	/// </summary>
+	public class WindowMovedEvent : IEvent
+	{
+		public static readonly uint _Id = 41;
+		public readonly int NewPosX;
+		public readonly int NewPosY;
+		public uint GetID()
+		{
+			return _Id;
+		}
+		public WindowMovedEvent(int NewPosX, int NewPosY)
+		{
+			this.NewPosX = NewPosX;
+			this.NewPosY = NewPosY;
+		}
+	}
+
+	/// <summary> 
+	/// Fired when the mouse moves off the window.
+	/// </summary>
+	public class MouseLeaveEvent : IEvent
+	{
+		public static readonly uint _Id = 42;
+		public uint GetID()
+		{
+			return _Id;
+		}
+		public MouseLeaveEvent()
+		{
 		}
 	}
 }
