@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Collections.Concurrent;
-using OpenTK.Graphics.OpenGL;
+﻿using EngineSystem;
 using OpenTK;
-using OpenTK.Graphics;
-using EngineSystem;
-using ThreadingUtils;
-using System.Drawing;
+using OpenTK.Graphics.OpenGL;
+using System;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace RenderSystem
 {

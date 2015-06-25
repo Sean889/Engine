@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace ThreadingUtils
+namespace EngineSystem.Threading
 {
 #pragma warning disable 420
     public struct AtomicBoolean

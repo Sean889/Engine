@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AtomicBoolean.cs" />
     <Compile Include="RenderComponent.cs" />
     <Compile Include="RenderSystem.cs" />
     <Compile Include="RenderThread.cs" />

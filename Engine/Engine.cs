@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ThreadingUtils;
+using EngineSystem.Threading;
+using EngineSystem.Messaging;
 
 namespace EngineSystem
 {
@@ -19,6 +20,7 @@ namespace EngineSystem
     {
         private UpdateEventHandler InternalUpdateEvent = new UpdateEventHandler();
         private UpdateEndEventHandler InternalUpdateEndEvent = new UpdateEndEventHandler();
+        private EventManager Manager = new EventManager();
         
         /// <summary>
         /// Event that is triggered everytime the engine updates.
@@ -51,6 +53,16 @@ namespace EngineSystem
                 InternalUpdateEndEvent.RemoveEventListener(value);
             }
         }
+        /// <summary>
+        /// The event manager of the engine. Use this to fire off any events.
+        /// </summary>
+        public EventManager EventManager
+        {
+            get
+            {
+                return Manager;
+            }
+        }
 
         /// <summary>
         /// Begins an update sequence.
@@ -81,7 +93,7 @@ namespace EngineSystem
         }
 
         /// <summary>
-        /// Allows a System to register itself.
+        /// Adds a system to the engine.
         /// </summary>
         /// <param name="System"></param>
         public void AddSystem(ISystem System)

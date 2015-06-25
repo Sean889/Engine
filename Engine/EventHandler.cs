@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.Concurrent;
-
+using System.Collections.Generic;
 using TP = ThreadPool;
 
-namespace ThreadingUtils
+namespace EngineSystem.Threading
 {
     public delegate void EventAction<TSender, TEventArgs>(TSender Sender, TEventArgs Args);
 
