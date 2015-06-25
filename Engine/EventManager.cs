@@ -11,7 +11,7 @@ namespace EngineSystem.Messaging
         private ConcurrentQueue<uint> ActiveEvents = new ConcurrentQueue<uint>();
 
         /// <summary>
-        /// Fires the Event using the given Event
+        /// Fires the Event. 
         /// </summary>
         /// <param name="Event"> The event to be fired. </param>
         public void FireEvent(IEvent Event)
@@ -93,6 +93,8 @@ namespace EngineSystem.Messaging
                     }
                 }
             }
+
+
         }
         private void FireInvalidEvent(string Error)
         {
