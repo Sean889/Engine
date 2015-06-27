@@ -5,8 +5,20 @@ using TP = ThreadPool;
 
 namespace EngineSystem.Threading
 {
+    /// <summary>
+    /// A ganeric function that supports an sender type and any argument type.
+    /// </summary>
+    /// <typeparam name="TSender"> The sender object type. </typeparam>
+    /// <typeparam name="TEventArgs"> The arguments object type. </typeparam>
+    /// <param name="Sender"> The sender. </param>
+    /// <param name="Args"> The arguments. </param>
     public delegate void EventAction<TSender, TEventArgs>(TSender Sender, TEventArgs Args);
 
+    /// <summary>
+    /// A multithreaded event handler that supports any sender type and any argument type.
+    /// </summary>
+    /// <typeparam name="TSender"> The sender type. </typeparam>
+    /// <typeparam name="TEventArgs"> The argument type. </typeparam>
     public class ThreadedEventHandler<TSender, TEventArgs> where TSender : class
     {
         private object SyncObject = new object();
@@ -16,15 +28,28 @@ namespace EngineSystem.Threading
 
         private List<TP.Future> Futures = new List<TP.Future>();
 
+        /// <summary>
+        /// Adds an event listener to the event list.
+        /// </summary>
+        /// <param name="e"> The listener to add. </param>
         public void AddEventListener(EventAction<TSender, TEventArgs> e)
         {
             AddQueue.Enqueue(e);
         }
+        /// <summary>
+        /// Removes an event listener from the event list.
+        /// </summary>
+        /// <param name="e"></param>
         public void RemoveEventListener(EventAction<TSender, TEventArgs> e)
         {
             RemoveQueue.Enqueue(e);
         }
 
+        /// <summary>
+        /// Begins executing all the event listeners.
+        /// </summary>
+        /// <param name="tSender"> The sender. </param>
+        /// <param name="tArgs"> The arguments. </param>
         public void Fire(TSender tSender, TEventArgs tArgs)
         {
             EventAction<TSender, TEventArgs> Action;
@@ -50,6 +75,9 @@ namespace EngineSystem.Threading
                 }
             }
         }
+        /// <summary>
+        /// Waits for all the currently executing event listeners to finish.
+        /// </summary>
         public void Wait()
         {
             lock(SyncObject)

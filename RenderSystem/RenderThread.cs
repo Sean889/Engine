@@ -28,8 +28,6 @@ namespace RenderSystem
         private Thread ExecutorThread;
         private EventManager EventDispatcher;
 
-        public delegate void TEventFunc<TArgs>(Object Obj, TArgs Args);
-
         /// <summary>
         /// The Event used to signal that a frame is done.
         /// </summary>

@@ -6,12 +6,18 @@ using System.Collections.Generic;
 
 namespace RenderSystem
 {
+    /// <summary>
+    /// The system that manages the rendering of all graphics components.
+    /// </summary>
     public class GraphicsSystem : ISystem
     {
         private RenderThread Thread;
         private List<GraphicsComponent> Components = new List<GraphicsComponent>();
         private ConcurrentQueue<GraphicsComponent> ToAdd = new ConcurrentQueue<GraphicsComponent>();
         private ConcurrentQueue<GraphicsComponent> ToRemove = new ConcurrentQueue<GraphicsComponent>();
+        private ICamera CurrentCamera;
+        private ConcurrentQueue<ICamera> CameraUpdates = new ConcurrentQueue<ICamera>();
+        internal Engine Engine;
 
         void ISystem.Register(Engine Target)
         {
@@ -19,6 +25,8 @@ namespace RenderSystem
 
             Target.OnUpdate += Update;
             Target.OnUpdateEnd += UpdateEnd;
+
+            Engine = Target;
         }
 
         private void Update(Engine e, UpdateEventArgs Args)
@@ -37,19 +45,48 @@ namespace RenderSystem
             while(ToAdd.TryDequeue(out Component))
             {
                 Components.Add(Component);
+                Component.__OnRenderAdd(this);
             }
 
             while (ToRemove.TryDequeue(out Component))
             {
                 Components.Remove(Component);
+                Component.__OnRenderRemove(this);
+            }
+
+            ICamera NewCam;
+            if (CameraUpdates.TryDequeue(out NewCam))
+            {
+                do { } while (CameraUpdates.TryDequeue(out NewCam));
+
+                NewCam.OnActive(this);
+                CurrentCamera.OnDeactive(this);
+                CurrentCamera = NewCam;
             }
         }
 
-        public RenderThread RenderThread
+        /// <summary>
+        /// The thread that rendering commands are submitted to.
+        /// </summary>
+        public RenderThread GraphicsThread
         {
             get
             {
                 return Thread;
+            }
+        }
+        /// <summary>
+        /// The current camera. Sets do not take place until the end of the frame.
+        /// </summary>
+        public ICamera Camera
+        {
+            get
+            {
+                return CurrentCamera;
+            }
+            set
+            {
+                CameraUpdates.Enqueue(value);
             }
         }
 

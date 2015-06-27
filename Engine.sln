@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{6D0D55C2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageParser", "MessageParser\MessageParser.csproj", "{F7D9987A-1250-411D-B02B-8D5275013A3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetLib", "PlanetLib\PlanetLib.csproj", "{88E1C015-3039-445D-8888-A36BC7D14F78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{F7D9987A-1250-411D-B02B-8D5275013A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7D9987A-1250-411D-B02B-8D5275013A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7D9987A-1250-411D-B02B-8D5275013A3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88E1C015-3039-445D-8888-A36BC7D14F78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88E1C015-3039-445D-8888-A36BC7D14F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88E1C015-3039-445D-8888-A36BC7D14F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88E1C015-3039-445D-8888-A36BC7D14F78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

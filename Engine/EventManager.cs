@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace EngineSystem.Messaging
 {
+    /// <summary>
+    /// Manages all events within the engine.
+    /// </summary>
     public class EventManager : ISystem
     {
         private ConcurrentDictionary<uint, ThreadedEventHandler<Object, IEvent>> EventHandlers = new ConcurrentDictionary<uint, ThreadedEventHandler<object, IEvent>>();

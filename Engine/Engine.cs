@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EngineSystem.Messaging;
 using EngineSystem.Threading;
-using EngineSystem.Messaging;
+using System;
+using System.Threading;
 
 namespace EngineSystem
 {
-    using UpdateEventHandler = ThreadedEventHandler<Engine, UpdateEventArgs>;
     using UpdateEndEventHandler = ThreadedEventHandler<Engine, EventArgs>;
+    using UpdateEventHandler = ThreadedEventHandler<Engine, UpdateEventArgs>;
 
     /// <summary>
     /// Central engine class.
@@ -72,6 +69,7 @@ namespace EngineSystem
         public void UpdateAsync(double DeltaTime)
         {
             InternalUpdateEndEvent.Wait();
+            Interlocked.MemoryBarrier();
             InternalUpdateEvent.Fire(this, new UpdateEventArgs(DeltaTime));
         }
         /// <summary>
@@ -80,6 +78,7 @@ namespace EngineSystem
         public void UpdateEndAsync()
         {
             InternalUpdateEvent.Wait();
+            Interlocked.MemoryBarrier();
             InternalUpdateEndEvent.Fire(this, null);
         }
 

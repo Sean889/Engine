@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace PhysicsSystem
 {
+    /// <summary>
+    /// A system that manages all BulletPhysicsComponents.
+    /// </summary>
     public class BulletPhysicsSystem : ISystem, IDisposable
     {
         private DynamicsWorld World;
@@ -13,7 +16,10 @@ namespace PhysicsSystem
         private ConcurrentQueue<BulletPhysicsComponent> ToAdd = new ConcurrentQueue<BulletPhysicsComponent>();
         private ConcurrentQueue<BulletPhysicsComponent> ToRemove = new ConcurrentQueue<BulletPhysicsComponent>();
         private ConcurrentQueue<Action<DynamicsWorld>> Actions = new ConcurrentQueue<Action<DynamicsWorld>>();
-
+        
+        /// <summary>
+        /// Checks whether the system has been disposed.
+        /// </summary>
         public bool IsDisposed
         {
             get
@@ -24,6 +30,10 @@ namespace PhysicsSystem
             }
         }
 
+        /// <summary>
+        /// Registers the appropriate callbacks with the engine.
+        /// </summary>
+        /// <param name="Target"></param>
         public void Register(Engine Target)
         {
             Target.OnUpdate += Update;
@@ -118,16 +128,23 @@ namespace PhysicsSystem
             return new BulletPhysicsComponent(Body, this);
         }
 
+        /// <summary>
+        /// Disposes the system.
+        /// </summary>
         public void Dispose()
         {
             if (World != null)
                 World.Dispose();
+
+            GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Disposes the system if it hasn't been handled yet.
+        /// </summary>
         ~BulletPhysicsSystem()
         {
-            if (!IsDisposed)
-                World.Dispose();
+            World.Dispose();
         }
     }
 }

@@ -3,6 +3,9 @@
 namespace EngineSystem.Threading
 {
 #pragma warning disable 420
+    /// <summary>
+    /// An atomic boolean.
+    /// </summary>
     public struct AtomicBoolean
     {
         private volatile int value;
@@ -10,6 +13,9 @@ namespace EngineSystem.Threading
         private const int TRUE = 1;
         private const int FALSE = 0;
 
+        /// <summary>
+        /// Atomically gets the value.
+        /// </summary>
         public bool Value
         {
             get

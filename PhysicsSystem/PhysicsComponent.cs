@@ -78,6 +78,9 @@ namespace PhysicsSystem
             Transform = Matrix4d.CreateFromQuaternion(Parent.Transform.Rotation) * Matrix4d.CreateTranslation(Parent.Transform.Position);
         }
 
+        /// <summary>
+        /// Returns the transform as a matrix.
+        /// </summary>
         public override Matrix4d WorldTransform
         {
             get

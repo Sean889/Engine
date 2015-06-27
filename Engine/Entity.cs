@@ -6,7 +6,10 @@ namespace EngineSystem
 {
     using PositionUpdate = Pair<Coord, uint>;
 
-    public class Entity
+    /// <summary>
+    /// The basic object type in the engine. This class cannot be inherited.
+    /// </summary>
+    public sealed class Entity
     {
         private const uint DEFAULT_PRIORITY = 1u;
 

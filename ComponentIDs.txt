@@ -51,7 +51,7 @@ A file keeping track of all used component IDs. When you create a component add 
 49	= 
 50	= GraphicsComponent
 51	= TexturedComponent
-52	= 
+52	= CameraComponent
 53	= 
 54	= 
 55	= 
@@ -59,8 +59,8 @@ A file keeping track of all used component IDs. When you create a component add 
 57	= 
 58	= 
 59	= 
-60	= 
-61	= 
+60	= PlanetComponent
+61	= PlanetGraphicsComponent
 62	= 
 63	= 
 64	= 

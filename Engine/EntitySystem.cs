@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace EngineSystem
 {
+    /// <summary>
+    /// Manages all entities within the engine.
+    /// </summary>
     public class EntitySystem : ISystem
     {
         /// <summary>
