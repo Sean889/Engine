@@ -1,6 +1,8 @@
 Use this file to keep track of what needs to be done.
 Add anything that isn't included.
 
+ - Come up with a name for the engine
+
  - Graphics System (Sean)
 	- Implement some basic object renderer components
 	- Implement any missing events

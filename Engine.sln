@@ -26,6 +26,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageParser", "MessagePar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetLib", "PlanetLib\PlanetLib.csproj", "{88E1C015-3039-445D-8888-A36BC7D14F78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shader", "ShaderRuntime\Shader.csproj", "{EA885744-98D1-4317-B700-BC06857B20A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaderGenerator", "Utils\ShaderGenerator\ShaderGenerator.csproj", "{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,11 +60,20 @@ Global
 		{88E1C015-3039-445D-8888-A36BC7D14F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88E1C015-3039-445D-8888-A36BC7D14F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88E1C015-3039-445D-8888-A36BC7D14F78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA885744-98D1-4317-B700-BC06857B20A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA885744-98D1-4317-B700-BC06857B20A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA885744-98D1-4317-B700-BC06857B20A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA885744-98D1-4317-B700-BC06857B20A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F7D9987A-1250-411D-B02B-8D5275013A3C} = {6D0D55C2-3CA8-4A52-ABAA-D309FAFD70B2}
+		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4} = {6D0D55C2-3CA8-4A52-ABAA-D309FAFD70B2}
 	EndGlobalSection
 EndGlobal
