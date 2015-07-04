@@ -15,7 +15,7 @@ namespace ShaderRuntime
         /// <summary>
         /// The OpenGL texture id.
         /// </summary>
-        public int Texture;
+        public int TextureID;
         /// <summary>
         /// The OpenGL texture target.
         /// </summary>
@@ -28,7 +28,7 @@ namespace ShaderRuntime
         /// <param name="Tgt"> The texture target. </param>
         public Texture(int Tex, TextureTarget Tgt)
         {
-            Texture = Tex;
+            TextureID = Tex;
             Target = Tgt;
         }
     }

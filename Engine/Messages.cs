@@ -6,8 +6,6 @@ using OpenTK.Input;
 namespace EngineSystem.Messaging
 {
 
-#pragma warning disable 1591
-
 	/// <summary> 
 	/// An Invalid Event. Fired in case of an error in the event passing system.
 	/// </summary>

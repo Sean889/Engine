@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttribArray.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="IGLShader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

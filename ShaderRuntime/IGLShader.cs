@@ -28,22 +28,13 @@ namespace Shader
         /// <returns> The value if it was found. </returns>
         T GetParameter<T>(string name);
 
+        int GetParameterID(string name);
+
+        void Compile();
+
+        void PassUniforms();
         /// <summary>
-        /// Adds a glVertexAttribPointer command to be executed.
-        /// </summary>
-        /// <param name="name"> The name of the parameter. </param>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
-        /// <param name="normalized"></param>
-        /// <param name="stride"></param>
-        /// <param name="offset"></param>
-        void SetVertexAttribPointer(string name, int size, VertexAttribPointerType type, bool normalized, int stride, int offset);
-        /// <summary>
-        /// Passes all the parameters that have been set for the shader.
-        /// </summary>
-        void PassParameters();
-        /// <summary>
-        /// Makes the shader current in the OpenGL state.
+        /// Makes the shader current in the OpenGL state as well as any other attached state it needs that doesn't have to be reset with each draw call.
         /// </summary>
         void UseShader();
 
