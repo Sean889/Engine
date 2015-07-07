@@ -46,10 +46,5 @@ namespace Shader
         /// </summary>
         /// <returns></returns>
         int GetShaderID();
-
-        /// <summary>
-        /// Allows for deletion of the shader.
-        /// </summary>
-        void Dispose();
     }
 }

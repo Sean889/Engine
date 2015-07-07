@@ -29,4 +29,16 @@ namespace Shader
           System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }
     }
+
+    [Serializable]
+    public class ShaderNotInitializedException : Exception
+    {
+        public ShaderNotInitializedException() { }
+        public ShaderNotInitializedException(string message) : base(message) { }
+        public ShaderNotInitializedException(string message, Exception inner) : base(message, inner) { }
+        protected ShaderNotInitializedException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
+    }
 }
