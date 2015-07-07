@@ -576,7 +576,14 @@ namespace ShaderGenerator
 
                 foreach(Pair<string, Type> p in Positions)
                 {
-
+                    if(p.second == Type.Uniform)
+                    {
+                        Lines.Add("\t\t\t__" + p.first + " = GL.GetUniformLocation(prg, \"" + p.first + "\");");                        
+                    }
+                    else
+                    {
+                        Lines.Add("\t\t\t__" + p.first + " = GL.GetAttribLocation(prg, \"" + p.first + "\");");
+                    }
                 }
 
                 Lines.Add("\t\t\tProgramID = prg;");
