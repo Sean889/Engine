@@ -30,6 +30,9 @@ namespace Shader
 
         int GetParameterID(string name);
 
+        /// <summary>
+        /// Compiles the shader
+        /// </summary>
         void Compile();
 
         void PassUniforms();
