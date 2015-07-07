@@ -17,6 +17,11 @@ Add anything that isn't included.
  - Planets
 	- Procedural generation
 		- Time of genration (Need to decide when)
+			- Don't write generation code (Use an external program)
+				- Uses lots of disk space
+				- Doesn't allow for variation
+				- Limits the size of the universe
+				- No runtime slowdown
 			- Generate once and save to disk. Don't generate after.
 				- Uses lots of disk space. 
 				- Can use more detail.
