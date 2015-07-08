@@ -51,7 +51,6 @@
     <Compile Include="Executor.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Planet.cs" />
-    <Compile Include="PlanetGraphicsComponent.cs" />
     <Compile Include="PlanetMesh.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -383,6 +383,7 @@ namespace ShaderGenerator
                     foreach (Pair<string, string> p in Parser.In)
                     {
                         Positions.Add(new Pair<string, Type>(p.first, Type.In));
+                        InitCommands.Add("GL.EnableVertexAttribArray(__" + p.first + ");");
                     }
 
                     Stages.Add(new Stage(file, GetShaderType(stage)));
@@ -710,7 +711,7 @@ namespace ShaderGenerator
             Lines.Add("\t\t{");
             Lines.Add("\t\t\tif(ProgramID != 0)");
             Lines.Add("\t\t\t\treturn ProgramID;");
-            Lines.Add("\t\t\tthrow new ShaderNotInitializedException(\"The shader" + name + "is not initialized. Call Compile() on one of the instances or CompileShader() on the global instance to compile the shader\");");
+            Lines.Add("\t\t\tthrow new ShaderNotInitializedException(\"The shader \\\"" + name + "\\\" has not been initialized. Call Compile() on one of the instances or CompileShader() to compile the shader\");");
             Lines.Add("\t\t}");
             #endregion
             #region Dispose
