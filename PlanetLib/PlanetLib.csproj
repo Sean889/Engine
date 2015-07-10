@@ -32,6 +32,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
@@ -52,6 +54,7 @@
     <Compile Include="Patch.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="PlanetMesh.cs" />
+    <Compile Include="PlanetSurfaceShader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +65,10 @@
     <ProjectReference Include="..\RenderSystem\RenderSystem.csproj">
       <Project>{cff3a588-8ecb-4d3a-969d-95792355b9bc}</Project>
       <Name>RenderSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShaderRuntime\Shader.csproj">
+      <Project>{ea885744-98d1-4317-b700-bc06857b20a3}</Project>
+      <Name>Shader</Name>
     </ProjectReference>
     <ProjectReference Include="..\ThreadPool\ThreadPool.csproj">
       <Project>{ec9a48ca-1aa8-49ea-9cc2-e4f6f36e6416}</Project>

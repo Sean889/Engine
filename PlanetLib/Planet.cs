@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using EngineSystem;
 using RenderSystem;
 using OpenTK;
+using Shader;
+using OpenTK.Graphics.OpenGL;
+using Shaders;
 
 namespace PlanetLib
 {
@@ -65,7 +68,16 @@ namespace PlanetLib
         /// <param name="Sys"></param>
         protected override void OnRenderAdd(GraphicsSystem Sys)
         {
-            Executor = new Executor(Sys, 0, ColourTexture, BumpTexture, NormalTexture, MaxDeform);
+            PlanetSurfaceShader Shader = new PlanetSurfaceShader();
+                        
+            Shader.uniform_ColourTexture = new Texture(ColourTexture, TextureTarget.TextureCubeMap);
+            Shader.uniform_BumpMap =  new Texture(BumpTexture, TextureTarget.TextureCubeMap);
+            Shader.uniform_NormalTexture = new Texture(NormalTexture, TextureTarget.TextureCubeMap);
+            Shader.uniform_MaxDeform = MaxDeform;
+
+            Sys.GraphicsThread.ScheduleRenderTask(new Action(delegate { Shader.Compile(); }));
+
+            Executor = new Executor(Sys, Shader, ColourTexture, BumpTexture, NormalTexture, MaxDeform);
 
             Mesh = new PlanetMesh(Radius, Executor);
         }

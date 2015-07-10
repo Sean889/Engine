@@ -8,6 +8,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK;
 using EngineSystem;
 using RenderSystem;
+using Shader;
 
 using TP = ThreadPool.ThreadPoolManager;
 
@@ -72,10 +73,7 @@ namespace PlanetLib
         private List<DrawItem> Vbos = new List<DrawItem>();
 
         private int IboID;
-        private int ProgramID;
-        private int ColourTexture;
-        private int BumpTexture;
-        private int NormalTexture;
+        private GLShader Shader;
 
         internal float MaxDeform;
 
@@ -159,56 +157,35 @@ namespace PlanetLib
                 Vbos.Remove(new DrawItem(Buf.VboID));
             }
 
-            GL.UseProgram(ProgramID);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, IboID);
-
-            GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.TextureCubeMap, ColourTexture);
-
-            GL.ActiveTexture(TextureUnit.Texture1);
-            GL.BindTexture(TextureTarget.TextureCubeMap, BumpTexture);
-
-            GL.ActiveTexture(TextureUnit.Texture2);
-            GL.BindTexture(TextureTarget.TextureCubeMap, NormalTexture);
-
-            GL.EnableVertexAttribArray(0);
-            GL.EnableVertexAttribArray(1);
+            Shader.UseShader();
 
             Matrix4d PlanetMat = Matrix4d.Rotate(PlanetTrans.Rotation) * Matrix4d.CreateTranslation(PlanetTrans.Position);
             Vector3d RelCamPos = Vector3d.Transform(CamPos, PlanetMat.Inverted());
-            Matrix4d TransMat = CamMat * PlanetMat;
             Matrix4 MVP;
 
             Vector3 RelLightDir = Convert(Vector3d.Transform(LightDir, PlanetMat.ExtractRotation()));
 
             unsafe
             {
-
                 foreach (DrawItem Item in Vbos)
                 {
                     //Calculate final mvp matrix
-                    MVP = Convert(TransMat * Matrix4d.CreateTranslation(Item.Offset));
+                    MVP = Convert(CamMat * PlanetMat * Matrix4d.CreateTranslation(Item.Offset));
 
                     //Bind vertex data
                     GL.BindBuffer(BufferTarget.ArrayBuffer, Item.Id);
 
                     //Setup vertex attributes
-                    GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(Vector3d), 0);
-                    GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, true, sizeof(Vector3d), (IntPtr)sizeof(Vector3d));
+                    GL.VertexAttribPointer(Shader.GetParameterLocation("Vertex"), 3, VertexAttribPointerType.Float, false, sizeof(Vector3d), 0);
+                    GL.VertexAttribPointer(Shader.GetParameterLocation("Texcoord"), 3, VertexAttribPointerType.Float, true, sizeof(Vector3d), (IntPtr)sizeof(Vector3d));
 
                     //Pass matrices
-                    GL.UniformMatrix4(0, true, ref MVP);
-
-                    //Mesh deformation
-                    GL.Uniform1(9, MaxDeform);
-
-                    //Textures
-                    GL.Uniform1(10, 0);
-                    GL.Uniform1(11, 1);
-                    GL.Uniform1(12, 2);
+                    Shader.SetParameter("MVP", MVP);
 
                     //Light direction
-                    GL.Uniform3(15, RelLightDir);
+                    Shader.SetParameter("RelLightDir", RelLightDir);
+
+                    Shader.PassUniforms();
 
                     //Draw call
                     GL.DrawElements(PrimitiveType.Triangles, (int)Patch.NUM_INDICES, DrawElementsType.UnsignedInt, IntPtr.Zero);
@@ -238,7 +215,7 @@ namespace PlanetLib
             }
         }
 
-        internal Executor(GraphicsSystem Sys, int Shader, int ColourTexture, int BumpTexture, int NormalTexture, float MaxDeform)
+        internal Executor(GraphicsSystem Sys, GLShader Shader, int ColourTexture, int BumpTexture, int NormalTexture, float MaxDeform)
         {
             Sys.GraphicsThread.ScheduleRenderTask(new Action(delegate
             {
@@ -246,11 +223,9 @@ namespace PlanetLib
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, IboID);
                 GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(sizeof(uint) * Patch.NUM_INDICES), Patch.Indices, BufferUsageHint.StaticDraw);
             }));
-            ProgramID = Shader;
 
-            this.ColourTexture = ColourTexture;
-            this.BumpTexture = BumpTexture;
-            this.NormalTexture = NormalTexture;
+            this.Shader = Shader;
+
             this.MaxDeform = MaxDeform;
         }
     }

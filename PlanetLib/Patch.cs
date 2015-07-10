@@ -432,5 +432,21 @@ namespace PlanetLib
 			return indices;
         }
      
+        private Vector3d ToSphere( Vector3d vPosition ) 
+        { 
+#if CUBE_TO_SPHERE_FAST
+
+#else
+            double x2 = vPosition.X * vPosition.X; 
+            double y2 = vPosition.Y * vPosition.Y; 
+            double z2 = vPosition.Z * vPosition.Z;
+
+            return new Vector3d(
+                vPosition.X * Math.Sqrt(1.0f - (y2 * 0.5f) - (z2 * 0.5f) + ((y2 * z2) / 3.0f)),
+                vPosition.Y * Math.Sqrt(1.0f - (z2 * 0.5f) - (x2 * 0.5f) + ((z2 * x2) / 3.0f)),
+                vPosition.Z * Math.Sqrt(1.0f - (x2 * 0.5f) - (y2 * 0.5f) + ((x2 * y2) / 3.0f)));
+#endif
+        }
+
     }
 }
