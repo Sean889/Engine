@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
-using OpenTK.Graphics.OpenGL;
 
 
 namespace ShaderGenerator
@@ -296,6 +293,14 @@ namespace ShaderGenerator
             {
                 return "GL.UniformMatrix4x3(__" + name + ", TransposeMatrix, ref " + name + ");";
             }
+            if(type == "int" || type == "float" || type == "double" || type == "uint")
+            {
+                return "GL.Uniform1(__" + name + ", " + pName + ");";
+            }
+            if(type == "bool")
+            {
+                return "GL.Uniform1(__" + name + ", " + pName + " ? 1 : 0);";
+            }
             throw new InvalidTypeException(name + " is not a valid type.");
         }
 
@@ -339,7 +344,7 @@ namespace ShaderGenerator
                                 //The property isn't already there.
                                 Properties.Add(new Property("Texture", p.first));
                                 InitCommands.Add("GL.ActiveTexture(TextureUnit.Texture" + Counter + ");");
-                                InitCommands.Add("GL.BindTexture(" + pName + ".Target, " + pName + ".Texture);");
+                                InitCommands.Add("GL.BindTexture(uniform_" + pName + ".Target, uniform_" + pName + ".TextureID);");
                                 DrawCommands.Add("GL.Uniform1(__" + p.first + ", " + Counter + ");");
                                 Positions.Add(new Pair<string, Type>(p.first, Type.Uniform));
                                 Counter++;
@@ -380,10 +385,13 @@ namespace ShaderGenerator
                         }
                     }
 
-                    foreach (Pair<string, string> p in Parser.In)
+                    if (GetShaderType(stage) == "Vertex")
                     {
-                        Positions.Add(new Pair<string, Type>(p.first, Type.In));
-                        InitCommands.Add("GL.EnableVertexAttribArray(__" + p.first + ");");
+                        foreach (Pair<string, string> p in Parser.In)
+                        {
+                            Positions.Add(new Pair<string, Type>(p.first, Type.In));
+                            InitCommands.Add("GL.EnableVertexAttribArray(__" + p.first + ");");
+                        }
                     }
 
                     Stages.Add(new Stage(file, GetShaderType(stage)));
@@ -411,18 +419,21 @@ namespace ShaderGenerator
             }
             #endregion
 
+            Lines.Add("//Generated File");
+            Lines.Add("");
             Lines.Add("using OpenTK.Graphics.OpenGL;");
             Lines.Add("using System;");
+            Lines.Add("using System.Diagnostics;");
             Lines.Add("using Shader;");
             Lines.Add("");
             Lines.Add("#pragma warning disable 168");
             Lines.Add("");
             Lines.Add("namespace Shaders");
             Lines.Add("{");
-            Lines.Add("\tclass " + name + " : IGLShader");
+            Lines.Add("\tclass " + name + " : GLShader");
             Lines.Add("\t{");
             Lines.Add("\t\tpublic bool TransposeMatrix = false;");
-            Lines.Add("");
+            
 
             #region Properties
             foreach (Pair<string, Type> p in Positions)
@@ -430,14 +441,14 @@ namespace ShaderGenerator
                 Lines.Add("\t\tpublic static int __" + p.first + ";");
             }
 
-            Lines.Add("");
+            
 
             foreach (Property p in Properties)
             {
-                Lines.Add("\t\t" + p.Type + " uniform_" + p.Name + ";");
+                Lines.Add("\t\tpublic " + p.Type + " uniform_" + p.Name + ";");
             }
 
-            Lines.Add("");
+            
             #endregion
             #region Compile
             {
@@ -492,85 +503,99 @@ namespace ShaderGenerator
                 Lines.Add("\t\tpublic static void CompileShader()");
                 Lines.Add("\t\t{");
                 Lines.Add("\t\t\tint prg = GL.CreateProgram();");
-                Lines.Add("\t\t\tint Vertex;");
-                Lines.Add("\t\t\tint Fragment;");
-                Lines.Add("\t\t\tint Geometry;");
-                Lines.Add("\t\t\tint TessControl;");
-                Lines.Add("\t\t\tint TessEvalutation;");
-                Lines.Add("\t\t\tint Compute;");
 
                 if (Vertex != null)
                 {
-                    Lines.Add("\t\t\tVertex = GL.CreateShader(ShaderType.VertexShader);");
+                    Lines.Add("");
+                    Lines.Add("\t\t\tint Vertex = GL.CreateShader(ShaderType.VertexShader);");
                     Lines.Add("\t\t\tGL.ShaderSource(Vertex, VertexShaderSource);");
                     Lines.Add("\t\t\tGL.CompileShader(Vertex);");
+                    Lines.Add("\t\t\tDebug.WriteLine(GL.GetShaderInfoLog(Vertex));");
                     Lines.Add("\t\t\tGL.AttachShader(prg, Vertex);");
                 }
                 if (Fragment != null)
                 {
-                    Lines.Add("\t\t\tFragment = GL.CreateShader(ShaderType.FragmentShader);");
+                    Lines.Add("");
+                    Lines.Add("\t\t\tint Fragment = GL.CreateShader(ShaderType.FragmentShader);");
                     Lines.Add("\t\t\tGL.ShaderSource(Fragment, FragmentShaderSource);");
                     Lines.Add("\t\t\tGL.CompileShader(Fragment);");
+                    Lines.Add("\t\t\tDebug.WriteLine(GL.GetShaderInfoLog(Fragment));");
                     Lines.Add("\t\t\tGL.AttachShader(prg, Fragment);");
                 }
                 if (Geometry != null)
                 {
-                    Lines.Add("\t\t\tGeometry = GL.CreateShader(ShaderType.GeometryShader);");
+                    Lines.Add("");
+                    Lines.Add("\t\t\tint Geometry = GL.CreateShader(ShaderType.GeometryShader);");
                     Lines.Add("\t\t\tGL.ShaderSource(Geometry, GeometryShaderSource);");
                     Lines.Add("\t\t\tGL.CompileShader(Geometry);");
+                    Lines.Add("\t\t\tDebug.WriteLine(GL.GetShaderInfoLog(Geometry));");
                     Lines.Add("\t\t\tGL.AttachShader(prg, Geometry);");
                 }
                 if (TessControl != null)
                 {
-                    Lines.Add("\t\t\tTessControl = GL.CreateShader(ShaderType.TessControlShader);");
+                    Lines.Add("");
+                    Lines.Add("\t\t\tint TessControl = GL.CreateShader(ShaderType.TessControlShader);");
                     Lines.Add("\t\t\tGL.ShaderSource(TessControl, TessControlShaderSource);");
                     Lines.Add("\t\t\tGL.CompileShader(TessControl);");
+                    Lines.Add("\t\t\tDebug.WriteLine(GL.GetShaderInfoLog(TessControl));");
                     Lines.Add("\t\t\tGL.AttachShader(prg, TessControl);");
                 }
                 if (TessEvaluation != null)
                 {
-                    Lines.Add("\t\t\tTessEvaluation = GL.CreateShader(ShaderType.TessEvaluationShader);");
+                    Lines.Add("");
+                    Lines.Add("\t\t\tint TessEvaluation = GL.CreateShader(ShaderType.TessEvaluationShader);");
                     Lines.Add("\t\t\tGL.ShaderSource(TessEvaluation, TessEvaluationShaderSource);");
                     Lines.Add("\t\t\tGL.CompileShader(TessEvaluation);");
+                    Lines.Add("\t\t\tDebug.WriteLine(GL.GetShaderInfoLog(TessEvaluation));");
                     Lines.Add("\t\t\tGL.AttachShader(prg, TessEvaluation);");
                 }
                 if (Compute != null)
                 {
-                    Lines.Add("\t\t\tTessEvaluation = GL.CreateShader(ShaderType.ComputeShader);");
-                    Lines.Add("\t\t\tGL.ShaderSource(TessEvaluation, ComputeShaderSource);");
-                    Lines.Add("\t\t\tGL.CompileShader(TessEvaluation);");
-                    Lines.Add("\t\t\tGL.AttachShader(prg, TessEvaluation);");
+                    Lines.Add("");
+                    Lines.Add("\t\t\tint Compute = GL.CreateShader(ShaderType.ComputeShader);");
+                    Lines.Add("\t\t\tGL.ShaderSource(Compute, ComputeShaderSource);");
+                    Lines.Add("\t\t\tGL.CompileShader(Compute);");
+                    Lines.Add("\t\t\tDebug.WriteLine(GL.GetShaderInfoLog(Compute));");
+                    Lines.Add("\t\t\tGL.AttachShader(prg, Compute);");
                 }
 
+                Lines.Add("");
                 Lines.Add("\t\t\tGL.LinkProgram(prg);");
+                Lines.Add("\t\t\tDebug.WriteLine(GL.GetProgramInfoLog(prg));");
 
                 if (Vertex != null)
                 {
+                    Lines.Add("");
                     Lines.Add("\t\t\tGL.DetachShader(prg, Vertex);");
                     Lines.Add("\t\t\tGL.DeleteShader(Vertex);");
                 }
                 if (Fragment != null)
                 {
+                    Lines.Add("");
                     Lines.Add("\t\t\tGL.DetachShader(prg, Fragment);");
                     Lines.Add("\t\t\tGL.DeleteShader(Fragment);");
                 }
                 if (Geometry != null)
                 {
+                    Lines.Add("");
                     Lines.Add("\t\t\tGL.DetachShader(prg, Geometry);");
                     Lines.Add("\t\t\tGL.DeleteShader(Geometry);");
                 }
                 if (TessControl != null)
                 {
+                    Lines.Add("");
                     Lines.Add("\t\t\tGL.DetachShader(prg, TessControl);");
                     Lines.Add("\t\t\tGL.DeleteShader(TessControl);");
                 }
                 if (TessEvaluation != null)
                 {
+                    Lines.Add("");
                     Lines.Add("\t\t\tGL.DetachShader(prg, TessEvaluation);");
                     Lines.Add("\t\t\tGL.DeleteShader(TessEvaluation);");
                 }
                 if (Compute != null)
                 {
+                    Lines.Add("");
                     Lines.Add("\t\t\tGL.DetachShader(prg, Compute);");
                     Lines.Add("\t\t\tGL.DeleteShader(Compute);");
                 }
@@ -591,7 +616,7 @@ namespace ShaderGenerator
                 Lines.Add("\t\t}");
             }
 
-            Lines.Add("");
+            
             Lines.Add("\t\tpublic void Compile()");
             Lines.Add("\t\t{");
             Lines.Add("\t\t\tif(ProgramID == 0)");
@@ -600,7 +625,7 @@ namespace ShaderGenerator
             Lines.Add("\t\t}");
             #endregion
             #region SetParameter
-            Lines.Add("");
+            
             Lines.Add("\t\tpublic void SetParameter<T>(string name, T value)");
             Lines.Add("\t\t{");
             Lines.Add("\t\t\ttry");
@@ -627,7 +652,7 @@ namespace ShaderGenerator
             Lines.Add("\t\t}");
             #endregion
             #region GetParameter
-            Lines.Add("");
+            
             Lines.Add("\t\tpublic T GetParameter<T>(string name)");
             Lines.Add("\t\t{");
             Lines.Add("\t\t\ttry");
@@ -651,8 +676,8 @@ namespace ShaderGenerator
             Lines.Add("\t\t\t}");
             Lines.Add("\t\t}");
             #endregion
-            #region GetParameterID
-            Lines.Add("\t\tpublic int GetParameterID(string name)");
+            #region GetParameterLocation
+            Lines.Add("\t\tpublic int GetParameterLocation(string name)");
             Lines.Add("\t\t{");
             Lines.Add("\t\t\tswitch(name)");
             Lines.Add("\t\t\t{");
@@ -681,7 +706,7 @@ namespace ShaderGenerator
             #endregion
             #region PassUniforms
 
-            Lines.Add("");
+            
             Lines.Add("\t\tpublic void PassUniforms()");
             Lines.Add("\t\t{");
             
@@ -693,7 +718,7 @@ namespace ShaderGenerator
             Lines.Add("\t\t}");
             #endregion
             #region UseShader
-            Lines.Add("");
+            
             Lines.Add("\t\tpublic void UseShader()");
             Lines.Add("\t\t{");
             Lines.Add("\t\t\tGL.UseProgram(ProgramID);");
@@ -706,7 +731,7 @@ namespace ShaderGenerator
             Lines.Add("\t\t}");
             #endregion
             #region GetShaderID
-            Lines.Add("");
+            
             Lines.Add("\t\tpublic int GetShaderID()");
             Lines.Add("\t\t{");
             Lines.Add("\t\t\tif(ProgramID != 0)");
@@ -715,7 +740,7 @@ namespace ShaderGenerator
             Lines.Add("\t\t}");
             #endregion
             #region Dispose
-            Lines.Add("");
+            
             Lines.Add("\t\tpublic void Dispose()");
             Lines.Add("\t\t{");
             Lines.Add("\t\t\tCtr--;");
@@ -729,7 +754,7 @@ namespace ShaderGenerator
 
             foreach(string line in Lines)
             {
-                Stream.WriteLine(line);
+                Stream.WriteLine(Regex.Replace(line, "\t", "    "));
             }
 
             Stream.Close();
