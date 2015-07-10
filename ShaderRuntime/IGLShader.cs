@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Shader
 {
-    public interface IGLShader : IDisposable
+    public interface GLShader : IDisposable
     {
         /// <summary>
         /// Sets the given parameter for the shader.
@@ -28,7 +28,7 @@ namespace Shader
         /// <returns> The value if it was found. </returns>
         T GetParameter<T>(string name);
 
-        int GetParameterID(string name);
+        int GetParameterLocation(string name);
 
         /// <summary>
         /// Compiles the shader

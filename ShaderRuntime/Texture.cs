@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 
-namespace ShaderRuntime
+namespace Shader
 {
     /// <summary>
     /// Represents an OpenGL texture. It does not manage it in any way.
