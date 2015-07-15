@@ -432,7 +432,7 @@ namespace PlanetLib
 			return indices;
         }
      
-        private Vector3d ToSphere( Vector3d vPosition ) 
+        internal static Vector3d ToSphere( Vector3d vPosition ) 
         { 
 #if CUBE_TO_SPHERE_FAST
 

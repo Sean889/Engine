@@ -33,7 +33,7 @@ Add anything that isn't included.
 			- Generate on the fly. 
 				- Generate the mesh as needed (Probably from a fractal function)
 				- Makes creating a new planet the same as drawing it
-	- Get dynamic LOD to work 
+	- Get dynamic LOD to work (Done)
 		- Generate on the fly vs using pregenerated
 		- Decide on LOD technique
 			- ROAM
@@ -46,7 +46,7 @@ Add anything that isn't included.
 					- Can't really be done on the GPU
 					- Slow
 					- Lots of bookkeeping to manage the triangle structure
-			- Chunked LOD
+			- Chunked LOD <- Did this one
 				- Pros
 					- Doesn't have to change every frame
 					- Easy regular tree structure
@@ -68,10 +68,12 @@ Add anything that isn't included.
 		- Replace with lava in some circumstances (This would be really cool, Secondary though)
 			- Actually make it glow
 	- Rocks and plants (This is secondary)
-	- Write a graphics component for the planet
+	- Write a graphics component for the planet (Done)
 
  - Stars
 	- Use LOD from the planet
 	- Use as principal light source
 	- Allow starts to be generated
+
+- Skybox
 				

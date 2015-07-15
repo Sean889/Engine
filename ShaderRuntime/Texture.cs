@@ -31,5 +31,16 @@ namespace Shader
             TextureID = Tex;
             Target = Tgt;
         }
+
+        /// <summary>
+        /// Whether this texture is valid.
+        /// </summary>
+        public bool IsValid
+        {
+            get
+            {
+                return TextureID != 0;
+            }
+        }
     }
 }

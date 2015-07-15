@@ -137,5 +137,21 @@ namespace EngineSystem
             Component.OnCreate(this);
             return Components.TryAdd(key, Component);
         }
+        
+        /// <summary>
+        /// Creates the Entity at the origin.
+        /// </summary>
+        public Entity()
+        { 
+
+        }
+        /// <summary>
+        /// Creates the entity with the given transform.
+        /// </summary>
+        /// <param name="Transform"></param>
+        public Entity(Coord Transform)
+        {
+            InternalTransform = Transform;
+        }
     }
 }

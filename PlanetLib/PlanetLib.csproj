@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Buffer.cs" />
     <Compile Include="Executor.cs" />
+    <Compile Include="MapGenerator.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="PlanetMesh.cs" />

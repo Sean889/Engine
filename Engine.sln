@@ -30,6 +30,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shader", "ShaderRuntime\Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaderGenerator", "Utils\ShaderGenerator\ShaderGenerator.csproj", "{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{A6031896-739F-4F2F-8B94-EC90FB3BFC37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibPlanetTest", "Test\LibPlanetTest\LibPlanetTest.csproj", "{FD07418C-54F0-4E8E-9EEC-AFDEF6DE9418}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +72,10 @@ Global
 		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD07418C-54F0-4E8E-9EEC-AFDEF6DE9418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD07418C-54F0-4E8E-9EEC-AFDEF6DE9418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD07418C-54F0-4E8E-9EEC-AFDEF6DE9418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD07418C-54F0-4E8E-9EEC-AFDEF6DE9418}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,5 +83,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F7D9987A-1250-411D-B02B-8D5275013A3C} = {6D0D55C2-3CA8-4A52-ABAA-D309FAFD70B2}
 		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4} = {6D0D55C2-3CA8-4A52-ABAA-D309FAFD70B2}
+		{FD07418C-54F0-4E8E-9EEC-AFDEF6DE9418} = {A6031896-739F-4F2F-8B94-EC90FB3BFC37}
 	EndGlobalSection
 EndGlobal
