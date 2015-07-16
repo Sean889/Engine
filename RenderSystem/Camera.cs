@@ -109,5 +109,13 @@ namespace RenderSystem
         {
             return OpenTK.Matrix4d.Perspective(Fovy, Aspect, NearZ, FarZ);
         }
+
+        public CameraComponent(double Aspect, double Fovy, double NearZ, double FarZ)
+        {
+            this.Aspect = Aspect;
+            this.Fovy = Fovy;
+            this.NearZ = NearZ;
+            this.FarZ = FarZ;
+        }
     }
 }
