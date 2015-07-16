@@ -15,6 +15,8 @@ namespace EngineSystem
     /// </summary>
     public class Engine
     {
+        public delegate bool Predicate(Engine Eng);
+
         private UpdateEventHandler InternalUpdateEvent = new UpdateEventHandler();
         private UpdateEndEventHandler InternalUpdateEndEvent = new UpdateEndEventHandler();
         private EventManager Manager = new EventManager();
@@ -62,8 +64,8 @@ namespace EngineSystem
         }
 
         /// <summary>
-        /// Begins an update sequence.
-        /// The update will continue running until end update async is called.
+        /// Fires the UpdateEvent.
+        /// The update will continue running until UpdateEndAsync is called.
         /// </summary>
         /// <param name="DeltaTime"> The time that passed since the last update. </param>
         public void UpdateAsync(double DeltaTime)
@@ -81,14 +83,68 @@ namespace EngineSystem
             Interlocked.MemoryBarrier();
             InternalUpdateEndEvent.Fire(this, null);
         }
-
         /// <summary>
         /// Call after UpdateEndAsync.
         /// Ends the callback but doesn't fire the next callback.
         /// </summary>
-        public void EndAll()
+        public void StopAsyncUpdate()
         {
             InternalUpdateEndEvent.Wait();
+        }
+
+        /// <summary>
+        /// Fires the UpdateEvent.
+        /// </summary>
+        /// <param name="DeltaTime"></param>
+        public void FireUpdate(double DeltaTime)
+        {
+            Interlocked.MemoryBarrier();
+            InternalUpdateEvent.Fire(this, new UpdateEventArgs(DeltaTime));
+            InternalUpdateEvent.Wait();
+        }
+        /// <summary>
+        /// Fires the UpdateEndEvent.
+        /// </summary>
+        public void FireUpdateEnd()
+        {
+            Interlocked.MemoryBarrier();
+            InternalUpdateEndEvent.Fire(this, null);
+            InternalUpdateEndEvent.Wait();
+        }
+
+        /// <summary>
+        /// Performs a full update step of the engine.
+        /// </summary>
+        /// <param name="DeltaTime"></param>
+        public void Update(double DeltaTime)
+        {
+            Interlocked.MemoryBarrier();
+            InternalUpdateEvent.Fire(this, new UpdateEventArgs(DeltaTime));
+            InternalUpdateEvent.Wait();
+            Interlocked.MemoryBarrier();
+            InternalUpdateEndEvent.Fire(this, null);
+            InternalUpdateEndEvent.Wait();
+        }
+
+        /// <summary>
+        /// Continuously runs an update until a predicate indicates to stop.
+        /// </summary>
+        /// <param name="Pred"> Returns true if the loop should continue, false otherwise. </param>
+        public void UpdateLoop(Predicate<Engine> Pred)
+        {
+            System.Diagnostics.Stopwatch Timer = new System.Diagnostics.Stopwatch();
+            Timer.Start();
+
+            do
+            {
+                double Time = (double)Timer.ElapsedMilliseconds;
+                Timer.Reset();
+                UpdateAsync(Time);
+                UpdateEndAsync();
+            } while (Pred(this));
+
+            StopAsyncUpdate();
+            Timer.Stop();
         }
 
         /// <summary>
