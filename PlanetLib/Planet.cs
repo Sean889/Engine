@@ -31,9 +31,9 @@ namespace PlanetLib
         private Executor Executor;
         private double Radius;
         private float MaxDeform;
-        private int ColourTexture;
-        private int BumpTexture;
-        private int NormalTexture;
+        private Texture ColourTexture;
+        private Texture BumpTexture;
+        private Texture NormalTexture;
 
         /// <summary>
         /// Returns the ID for this component.
@@ -109,7 +109,7 @@ namespace PlanetLib
         /// <param name="colour_texture"></param>
         /// <param name="bump_texture"></param>
         /// <param name="normal_texture"></param>
-        public PlanetComponent(double radius, float max_deform, int colour_texture, int bump_texture, int normal_texture)
+        public PlanetComponent(double radius, float max_deform, Texture colour_texture, Texture bump_texture, Texture normal_texture)
         {
             Radius = radius;
             MaxDeform = (float)max_deform;

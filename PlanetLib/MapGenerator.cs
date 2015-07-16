@@ -11,12 +11,12 @@ namespace PlanetLib
 {
     internal struct TexData<T> where T : struct
     {
-        internal T[,] Top = null;
-        internal T[,] Bottom = null;
-        internal T[,] Left = null;
-        internal T[,] Right = null;
-        internal T[,] Front = null;
-        internal T[,] Back = null;
+        internal T[,] Top;
+        internal T[,] Bottom;
+        internal T[,] Left;
+        internal T[,] Right;
+        internal T[,] Front;
+        internal T[,] Back;
 
         internal void Reset()
         {
