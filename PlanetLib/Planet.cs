@@ -70,14 +70,14 @@ namespace PlanetLib
         {
             PlanetSurfaceShader Shader = new PlanetSurfaceShader();
                         
-            Shader.uniform_ColourTexture = new Texture(ColourTexture, TextureTarget.TextureCubeMap);
-            Shader.uniform_BumpMap =  new Texture(BumpTexture, TextureTarget.TextureCubeMap);
-            Shader.uniform_NormalTexture = new Texture(NormalTexture, TextureTarget.TextureCubeMap);
+            Shader.uniform_ColourTexture = ColourTexture;
+            Shader.uniform_BumpMap =  BumpTexture;
+            Shader.uniform_NormalTexture = NormalTexture;
             Shader.uniform_MaxDeform = MaxDeform;
 
             Sys.GraphicsThread.ScheduleRenderTask(new Action(delegate { Shader.Compile(); }));
 
-            Executor = new Executor(Sys, Shader, ColourTexture, BumpTexture, NormalTexture, MaxDeform);
+            Executor = new Executor(Sys, Shader);
 
             Mesh = new PlanetMesh(Radius, Executor);
         }

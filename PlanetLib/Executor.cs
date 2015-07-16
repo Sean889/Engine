@@ -75,8 +75,6 @@ namespace PlanetLib
         private int IboID;
         private GLShader Shader;
 
-        internal float MaxDeform;
-
         // Generates the mesh data for the patches and removes their parent
         internal void GenMeshData(Patch nw, Patch ne, Patch sw, Patch se)
         {
@@ -215,7 +213,7 @@ namespace PlanetLib
             }
         }
 
-        internal Executor(GraphicsSystem Sys, GLShader Shader, int ColourTexture, int BumpTexture, int NormalTexture, float MaxDeform)
+        internal Executor(GraphicsSystem Sys, GLShader Shader)
         {
             Sys.GraphicsThread.ScheduleRenderTask(new Action(delegate
             {
@@ -225,8 +223,6 @@ namespace PlanetLib
             }));
 
             this.Shader = Shader;
-
-            this.MaxDeform = MaxDeform;
         }
     }
 }
