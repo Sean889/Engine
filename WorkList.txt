@@ -1,0 +1,9 @@
+This file keeps track of what is being worked on as well as what has been completed.
+
+Completed:
+	- Engine Framework
+	- Graphics System
+	- 
+
+In Progress:
+	- Ocean Waves

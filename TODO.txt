@@ -61,7 +61,7 @@ Add anything that isn't included.
 	- Atmosphere
 		- Atmospheric scattering
 		- Should use Sean O'Niel's "Precomputed Atmospheric Scattering" (See article on gamasutra)
-	- Water
+	- Water (Working on this)
 		- Reflection
 		- Waves
 			- Actually deform the mesh to simulate waves
