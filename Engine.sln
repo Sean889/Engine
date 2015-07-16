@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		MessageIDs.txt = MessageIDs.txt
 		Messages.xml = Messages.xml
 		TODO.txt = TODO.txt
+		WorkList.txt = WorkList.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderSystem", "RenderSystem\RenderSystem.csproj", "{CFF3A588-8ECB-4D3A-969D-95792355B9BC}"
