@@ -81,5 +81,10 @@ namespace EngineSystem
         {
             Eng.OnUpdateEnd += UpdateEndCallback;
         }
+
+        public void Dispose()
+        {
+
+        }
     }
 }

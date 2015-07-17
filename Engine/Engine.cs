@@ -5,20 +5,21 @@ using System.Threading;
 
 namespace EngineSystem
 {
-    using UpdateEndEventHandler = ThreadedEventHandler<Engine, EventArgs>;
-    using UpdateEventHandler = ThreadedEventHandler<Engine, UpdateEventArgs>;
+    using UpdateEndEventHandler = MultithreadedEventHandler<Engine, EventArgs>;
+    using UpdateEventHandler = MultithreadedEventHandler<Engine, UpdateEventArgs>;
 
     /// <summary>
     /// Central engine class.
     /// This class controls all update events.
     /// Any operations on this class should be thread safe.
     /// </summary>
-    public class Engine
+    public class Engine : IDisposable
     {
         public delegate bool Predicate(Engine Eng);
 
         private UpdateEventHandler InternalUpdateEvent = new UpdateEventHandler();
         private UpdateEndEventHandler InternalUpdateEndEvent = new UpdateEndEventHandler();
+        private ThreadedEventHandler<Engine, EventArgs> InternalDisposeEvent = new ThreadedEventHandler<Engine, EventArgs>();
         private EventManager Manager = new EventManager();
         
         /// <summary>
@@ -52,6 +53,21 @@ namespace EngineSystem
                 InternalUpdateEndEvent.RemoveEventListener(value);
             }
         }
+        /// <summary>
+        /// Fired when the engine is disposed of.
+        /// </summary>
+        public event EventAction<Engine, EventArgs> OnDispose
+        {
+            add
+            {
+                InternalDisposeEvent.AddEventListener(value);
+            }
+            remove
+            {
+                InternalDisposeEvent.RemoveEventListener(value);
+            }
+        }
+
         /// <summary>
         /// The event manager of the engine. Use this to fire off any events.
         /// </summary>
@@ -154,6 +170,11 @@ namespace EngineSystem
         public void AddSystem(ISystem System)
         {
             System.Register(this);
+        }
+
+        public void Dispose()
+        {
+            InternalDisposeEvent.Fire(this, new EventArgs());
         }
     }
 }

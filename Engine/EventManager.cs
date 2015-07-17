@@ -10,7 +10,7 @@ namespace EngineSystem.Messaging
     /// </summary>
     public class EventManager : ISystem
     {
-        private ConcurrentDictionary<uint, ThreadedEventHandler<Object, IEvent>> EventHandlers = new ConcurrentDictionary<uint, ThreadedEventHandler<object, IEvent>>();
+        private ConcurrentDictionary<uint, MultithreadedEventHandler<Object, IEvent>> EventHandlers = new ConcurrentDictionary<uint, MultithreadedEventHandler<object, IEvent>>();
         private ConcurrentQueue<uint> ActiveEvents = new ConcurrentQueue<uint>();
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace EngineSystem.Messaging
             }
             else
             {
-                ThreadedEventHandler<Object, IEvent> Delegate;
+                MultithreadedEventHandler<Object, IEvent> Delegate;
                 if (EventHandlers.TryGetValue(Event.GetID(), out Delegate))
                 {
                     Delegate.Fire(this, Event);
@@ -44,14 +44,14 @@ namespace EngineSystem.Messaging
             if (EventHandler == null)
                 throw new ArgumentNullException("EventHandler was null.");
 
-            ThreadedEventHandler<Object, IEvent> Handler;
+            MultithreadedEventHandler<Object, IEvent> Handler;
             if(EventHandlers.TryGetValue(ID, out Handler))
             {
                 Handler.AddEventListener(EventHandler);
             }
             else
             {
-                Handler = new ThreadedEventHandler<object, IEvent>();
+                Handler = new MultithreadedEventHandler<object, IEvent>();
                 Handler.AddEventListener(EventHandler);
                 EventHandlers.TryAdd(ID, Handler);
             }
@@ -66,7 +66,7 @@ namespace EngineSystem.Messaging
             if (EventHandler == null)
                 throw new ArgumentNullException("EventHandler was null.");
 
-            ThreadedEventHandler<Object, IEvent> Handler;
+            MultithreadedEventHandler<Object, IEvent> Handler;
             if (EventHandlers.TryGetValue(ID, out Handler))
             {
                 Handler.RemoveEventListener(EventHandler);
@@ -83,7 +83,7 @@ namespace EngineSystem.Messaging
             List<uint> Cleared = new List<uint>();
 
             uint ID;
-            ThreadedEventHandler<Object, IEvent> Handler;
+            MultithreadedEventHandler<Object, IEvent> Handler;
 
             while(ActiveEvents.TryDequeue(out ID))
             {
@@ -103,7 +103,7 @@ namespace EngineSystem.Messaging
         {
             InvalidEvent Event = new InvalidEvent(Error);
 
-            ThreadedEventHandler<Object, IEvent> Handler;
+            MultithreadedEventHandler<Object, IEvent> Handler;
             if (EventHandlers.TryGetValue(0, out Handler))
             {
                 Handler.Fire(this, Event);

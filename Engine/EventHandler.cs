@@ -19,7 +19,7 @@ namespace EngineSystem.Threading
     /// </summary>
     /// <typeparam name="TSender"> The sender type. </typeparam>
     /// <typeparam name="TEventArgs"> The argument type. </typeparam>
-    public class ThreadedEventHandler<TSender, TEventArgs> where TSender : class
+    public class MultithreadedEventHandler<TSender, TEventArgs> where TSender : class
     {
         private object SyncObject = new object();
         private ConcurrentQueue<EventAction<TSender, TEventArgs>> AddQueue = new ConcurrentQueue<EventAction<TSender, TEventArgs>>();
@@ -85,6 +85,63 @@ namespace EngineSystem.Threading
                 foreach(TP.Future Future in Futures)
                 {
                     Future.Complete();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// A thread safe event handler that executes the event handlers on a single thread.
+    /// </summary>
+    /// <typeparam name="TSender"> The sender type. </typeparam>
+    /// <typeparam name="TEventArgs"> The argument type. </typeparam>
+    public class ThreadedEventHandler<TSender, TEventArgs> where TSender : class
+    {
+        private object SyncObject = new object();
+        private ConcurrentQueue<EventAction<TSender, TEventArgs>> AddQueue = new ConcurrentQueue<EventAction<TSender, TEventArgs>>();
+        private ConcurrentQueue<EventAction<TSender, TEventArgs>> RemoveQueue = new ConcurrentQueue<EventAction<TSender, TEventArgs>>();
+        private List<EventAction<TSender, TEventArgs>> Actions = new List<EventAction<TSender, TEventArgs>>();
+
+        /// <summary>
+        /// Adds an event listener to the event list.
+        /// </summary>
+        /// <param name="e"> The listener to add. </param>
+        public void AddEventListener(EventAction<TSender, TEventArgs> e)
+        {
+            AddQueue.Enqueue(e);
+        }
+        /// <summary>
+        /// Removes an event listener from the event list.
+        /// </summary>
+        /// <param name="e"></param>
+        public void RemoveEventListener(EventAction<TSender, TEventArgs> e)
+        {
+            RemoveQueue.Enqueue(e);
+        }
+
+        /// <summary>
+        /// Fires all the event handlers associated with this event one at a time.
+        /// </summary>
+        /// <param name="Sender"></param>
+        /// <param name="Args"></param>
+        public void Fire(TSender Sender, TEventArgs Args)
+        {
+            lock(SyncObject)
+            {
+                EventAction<TSender, TEventArgs> Action;
+                while(AddQueue.TryDequeue(out Action))
+                {
+                    Actions.Add(Action);
+                }
+
+                while (RemoveQueue.TryDequeue(out Action))
+                {
+                    Actions.Remove(Action);
+                }
+
+                foreach(EventAction<TSender, TEventArgs> Event in Actions)
+                {
+                    Event(Sender, Args);
                 }
             }
         }
