@@ -11,7 +11,7 @@ namespace RenderSystem
     /// <summary>
     /// A thread that executes all the rendering tasks.
     /// </summary>
-    public class RenderThread
+    public class RenderThread : IDisposable
     {
         /// <summary>
         /// The number of miliseconds that the rendering thread will wait before checking if there is a new frame.
@@ -138,6 +138,16 @@ namespace RenderSystem
         {
             CurrentQueue = new ConcurrentQueue<Action>();
             ExecutorThread = new Thread(new ThreadStart(ThreadExecutor));
+        }
+        private void Terminate()
+        {
+            TerminateFlag = true;
+            ExecutorThread.Join();
+        }
+
+        public void Dispose()
+        {
+            Terminate();
         }
     }
 }

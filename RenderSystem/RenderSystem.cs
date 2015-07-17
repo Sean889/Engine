@@ -25,8 +25,14 @@ namespace RenderSystem
 
             Target.OnUpdate += Update;
             Target.OnUpdateEnd += UpdateEnd;
+            Target.OnDispose += OnEngineDispose;
 
             Engine = Target;
+        }
+
+        private void OnEngineDispose(Engine Sender, EventArgs Args)
+        {
+            Thread.Dispose();
         }
 
         private void Update(Engine e, UpdateEventArgs Args)
