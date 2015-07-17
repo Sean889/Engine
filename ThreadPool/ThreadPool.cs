@@ -13,27 +13,27 @@ namespace ThreadPool
         /// <summary>
         /// A queue containing all the tasks.
         /// </summary>
-        private static ConcurrentQueue<PromiseBase> TaskQueue;
+        private static ConcurrentQueue<PromiseBase> TaskQueue = new ConcurrentQueue<PromiseBase>();
         /// <summary>
         /// A queue containing all the background tasks.
         /// </summary>
-        private static ConcurrentQueue<PromiseBase> BackgroundTaskQueue;
+        private static ConcurrentQueue<PromiseBase> BackgroundTaskQueue = new ConcurrentQueue<PromiseBase>();
         /// <summary>
         /// A list of all the threads in the thread pool.
         /// </summary>
-        private static List<Thread> Threads;
+        private static List<Thread> Threads = new List<Thread>();
         /// <summary>
         /// A flag to indicate to worker threads that they should exit.
         /// </summary>
-        private static AtomicBoolean TerminateFlag;
+        private static AtomicBoolean TerminateFlag = false;
         /// <summary>
         /// An event used to signal to worker threads that there is work to be done.
         /// </summary>
-        private static AutoResetEvent Event;
+        private static AutoResetEvent Event = new AutoResetEvent(false);
         /// <summary>
         /// An event used to signal to the background task worker thread that there is work to be done.
         /// </summary>
-        private static AutoResetEvent BackgroundEvent;
+        private static AutoResetEvent BackgroundEvent = new AutoResetEvent(false);
 
         /// <summary>
         /// Maximum amount of time a thread will wait before checking whether there is work to do.

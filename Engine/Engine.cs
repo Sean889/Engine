@@ -15,6 +15,8 @@ namespace EngineSystem
     /// </summary>
     public class Engine : IDisposable
     {
+        private static volatile int InitCount;
+
         public delegate bool Predicate(Engine Eng);
 
         private UpdateEventHandler InternalUpdateEvent = new UpdateEventHandler();
@@ -175,6 +177,19 @@ namespace EngineSystem
         public void Dispose()
         {
             InternalDisposeEvent.Fire(this, new EventArgs());
+            if(--InitCount == 0)
+            {
+                ThreadPool.ThreadPoolManager.Terminate();
+            }
+        }
+
+        public Engine()
+        {
+            int cnt = InitCount++;
+            if(cnt == 0)
+            {
+                ThreadPool.ThreadPoolManager.Init();
+            }
         }
     }
 }
