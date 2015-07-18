@@ -368,6 +368,12 @@ namespace ShaderGenerator
                         }
                     }
 
+                    foreach(Pair<string, string> p in Parser.In)
+                    {
+                        if(!Positions.Contains(new Pair<string, Type>(p.first, Type.In)))
+                            Positions.Add(new Pair<string, Type>(p.first, Type.In));
+                    }
+
                     foreach (string str in Parser.Preprocessor)
                     {
                         string formatted = Regex.Replace(str, "//s+", " ");

@@ -75,7 +75,7 @@ namespace PlanetLib
             Shader.uniform_NormalTexture = NormalTexture;
             Shader.uniform_MaxDeform = MaxDeform;
 
-            Sys.GraphicsThread.ScheduleRenderTask(new Action(delegate { Shader.Compile(); }));
+            Sys.GraphicsThread.ScheduleEssentialRenderTask(new Action(delegate { Shader.Compile(); }));
 
             Executor = new Executor(Sys, Shader);
 

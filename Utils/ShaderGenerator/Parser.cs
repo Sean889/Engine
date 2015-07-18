@@ -55,7 +55,7 @@ namespace ShaderGenerator
             Data = D;
         }
     }
-    class Pair<T1, T2>
+    class Pair<T1, T2> where T1 : IEquatable<T1>
     {
         public T1 first;
         public T2 second;
@@ -64,6 +64,15 @@ namespace ShaderGenerator
         {
             first = _1;
             second = _2;
+        }
+
+        public static bool operator ==(Pair<T1, T2> lhs, Pair<T1, T2> rhs)
+        {
+            return lhs.first.Equals(rhs.first);
+        }
+        public static bool operator !=(Pair<T1, T2> lhs, Pair<T1, T2> rhs)
+        {
+            return !(lhs == rhs);
         }
     }
 

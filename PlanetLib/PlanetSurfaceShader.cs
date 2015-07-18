@@ -16,9 +16,12 @@ namespace Shaders
         public static int __MVP;
         public static int __LightRotation;
         public static int __BumpMap;
+        public static int __Vertex;
+        public static int __Texcoord;
         public static int __RelLightDir;
         public static int __ColourTexture;
         public static int __NormalTexture;
+        public static int __Texcoord0;
         public float uniform_MaxDeform;
         public OpenTK.Matrix4 uniform_MVP;
         public OpenTK.Matrix4 uniform_LightRotation;
@@ -58,9 +61,12 @@ namespace Shaders
             __MVP = GL.GetUniformLocation(prg, "MVP");
             __LightRotation = GL.GetUniformLocation(prg, "LightRotation");
             __BumpMap = GL.GetUniformLocation(prg, "BumpMap");
+            __Vertex = GL.GetAttribLocation(prg, "Vertex");
+            __Texcoord = GL.GetAttribLocation(prg, "Texcoord");
             __RelLightDir = GL.GetUniformLocation(prg, "RelLightDir");
             __ColourTexture = GL.GetUniformLocation(prg, "ColourTexture");
             __NormalTexture = GL.GetUniformLocation(prg, "NormalTexture");
+            __Texcoord0 = GL.GetAttribLocation(prg, "Texcoord0");
             ProgramID = prg;
         }
         public void Compile()
@@ -146,12 +152,18 @@ namespace Shaders
                     return __LightRotation;
                 case "BumpMap":
                     return __BumpMap;
+                case "Vertex":
+                    return __Vertex;
+                case "Texcoord":
+                    return __Texcoord;
                 case "RelLightDir":
                     return __RelLightDir;
                 case "ColourTexture":
                     return __ColourTexture;
                 case "NormalTexture":
                     return __NormalTexture;
+                case "Texcoord0":
+                    return __Texcoord0;
                 default:
                     throw new InvalidIdentifierException("There is no parameter named " + name + ".");
             }

@@ -24,6 +24,7 @@ namespace RenderSystem
 
         private ConcurrentQueue<Action<WindowType>> WindowTasks = new ConcurrentQueue<Action<WindowType>>();
         private ConcurrentQueue<ConcurrentQueue<Action>> FrameQueue = new ConcurrentQueue<ConcurrentQueue<Action>>();
+        private ConcurrentQueue<Action> EssentialRenderTasks = new ConcurrentQueue<Action>();
 
         private ConcurrentQueue<Action> CurrentQueue;
         private volatile bool TerminateFlag = false;
@@ -59,11 +60,21 @@ namespace RenderSystem
         
         /// <summary>
         /// Adds a task that will be executed by the rendering thread.
+        /// These tasks are not guarenteed to be executed. 
+        /// If a task needs to be executed use ScheduleEssentialRenderTask instead.
         /// </summary>
         /// <param name="Task"> The task to be executed. </param>
         public void ScheduleRenderTask(Action Task)
         {
             CurrentQueue.Enqueue(Task);
+        }
+        /// <summary>
+        /// Schedules a task that is guareteed to be executed by the rendering thread.
+        /// </summary>
+        /// <param name="Task"></param>
+        public void ScheduleEssentialRenderTask(Action Task)
+        {
+            EssentialRenderTasks.Enqueue(Task);
         }
         
         /// <summary>
@@ -156,6 +167,11 @@ namespace RenderSystem
 
                         Action Act;
                         while (Frame.TryDequeue(out Act))
+                        {
+                            Act();
+                        }
+
+                        while(EssentialRenderTasks.TryDequeue(out Act))
                         {
                             Act();
                         }
