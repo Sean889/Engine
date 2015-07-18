@@ -17,6 +17,11 @@ namespace EngineSystem
     {
         private static volatile int InitCount;
 
+        /// <summary>
+        /// Type that evaluates a condition.
+        /// </summary>
+        /// <param name="Eng"> The Engine. </param>
+        /// <returns></returns>
         public delegate bool Predicate(Engine Eng);
 
         private UpdateEventHandler InternalUpdateEvent = new UpdateEventHandler();
@@ -174,6 +179,10 @@ namespace EngineSystem
             System.Register(this);
         }
 
+        /// <summary>
+        /// Disposes of all engine resources that require disposing of.
+        /// Calls the OnDispose callback.
+        /// </summary>
         public void Dispose()
         {
             InternalDisposeEvent.Fire(this, new EventArgs());
@@ -182,7 +191,10 @@ namespace EngineSystem
                 ThreadPool.ThreadPoolManager.Terminate();
             }
         }
-
+         
+        /// <summary>
+        /// Constructs the Engine.
+        /// </summary>
         public Engine()
         {
             int cnt = InitCount++;

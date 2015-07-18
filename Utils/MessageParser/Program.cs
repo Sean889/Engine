@@ -47,11 +47,6 @@ namespace MessageParser
 
         static void Main(string[] args)
         {
-            args = new string[2];
-
-            args[0] = "D:\\Projects\\Projects\\C#\\Engine\\Messages.xml";
-            args[1] = "D:\\Projects\\Projects\\C#\\Engine\\Engine\\Messages.cs";
-
             if(args.Length < 2)
             {
                 Console.WriteLine("Need at least 2 console arguments.");
