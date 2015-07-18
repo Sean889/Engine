@@ -86,6 +86,7 @@ namespace EngineSystem.Threading
                 {
                     Future.Complete();
                 }
+                Futures.Clear();
             }
         }
     }

@@ -22,7 +22,7 @@ namespace EngineSystem
         /// <summary>
         /// Actual position object.
         /// </summary>
-        private volatile Coord InternalTransform;
+        private volatile Coord InternalTransform = new Coord(new OpenTK.Vector3d(), new OpenTK.Quaterniond());
         /// <summary>
         /// A thread safe dictionary of the current components attached to this object.
         /// </summary>

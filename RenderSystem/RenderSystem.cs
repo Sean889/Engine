@@ -63,11 +63,13 @@ namespace RenderSystem
             ICamera NewCam;
             if (CameraUpdates.TryDequeue(out NewCam))
             {
-                do { } while (CameraUpdates.TryDequeue(out NewCam));
+                ICamera PrevCam;
+                do { PrevCam = NewCam; } while (CameraUpdates.TryDequeue(out NewCam));
 
-                NewCam.OnActive(this);
-                CurrentCamera.OnDeactive(this);
-                CurrentCamera = NewCam;
+                PrevCam.OnActive(this);
+                if(CurrentCamera != null)
+                    CurrentCamera.OnDeactive(this);
+                CurrentCamera = PrevCam;
             }
         }
 

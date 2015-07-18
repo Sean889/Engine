@@ -104,12 +104,19 @@ namespace RenderSystem
         /// <summary>
         /// Returns the projection matrix of the camera.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> The projection matrix for the camera. </returns>
         public OpenTK.Matrix4d GetProjMat()
         {
             return OpenTK.Matrix4d.Perspective(Fovy, Aspect, NearZ, FarZ);
         }
 
+        /// <summary>
+        /// Creates the camera.
+        /// </summary>
+        /// <param name="Aspect"> The aspect ratio of the camera. </param>
+        /// <param name="Fovy"> The field of view on the Y axis. </param>
+        /// <param name="NearZ"> The near plane. </param>
+        /// <param name="FarZ"> The far plane. </param>
         public CameraComponent(double Aspect, double Fovy, double NearZ, double FarZ)
         {
             this.Aspect = Aspect;

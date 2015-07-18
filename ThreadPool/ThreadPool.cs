@@ -298,12 +298,12 @@ namespace ThreadPool
                 try
                 {
                     Func();
-                    Complete.FalseToTrue();
                 }
                 catch(Exception e)
                 {
                     CaughtException = e;
                 }
+                Complete.FalseToTrue();
             }
         }
         private void Init()
@@ -370,12 +370,12 @@ namespace ThreadPool
                 try
                 {
                     RetValue = Func();
-                    Complete.FalseToTrue();
                 }
                 catch (Exception e)
                 {
                     CaughtException = e;
                 }
+                Complete.FalseToTrue();
             }
         }
         private void Init()
@@ -440,7 +440,7 @@ namespace ThreadPool
         {
             get
             {
-                return MyPromise.Complete.Value;
+                return MyPromise.CaughtException != null && MyPromise.Complete.Value;
             }
         }
         /// <summary>
@@ -451,6 +451,16 @@ namespace ThreadPool
             get
             {
                 return MyPromise.Canceled.Value;
+            }
+        }
+        /// <summary>
+        /// A boolean value indicating whether the Task threw an exception.
+        /// </summary>
+        public bool ThrewException
+        {
+            get
+            {
+                return MyPromise.CaughtException != null;
             }
         }
 

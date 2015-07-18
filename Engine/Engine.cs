@@ -99,7 +99,7 @@ namespace EngineSystem
         {
             InternalUpdateEvent.Wait();
             Interlocked.MemoryBarrier();
-            InternalUpdateEndEvent.Fire(this, null);
+            InternalUpdateEndEvent.Fire(this, EventArgs.Empty);
         }
         /// <summary>
         /// Call after UpdateEndAsync.
@@ -188,7 +188,7 @@ namespace EngineSystem
             int cnt = InitCount++;
             if(cnt == 0)
             {
-                ThreadPool.ThreadPoolManager.Init();
+                ThreadPool.ThreadPoolManager.Init(0);
             }
         }
     }

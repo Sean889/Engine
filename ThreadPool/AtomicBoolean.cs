@@ -26,13 +26,13 @@ namespace ThreadPool
         /// Attempt changing the value from CompareAnd to Target.
         /// </summary>
         /// <param name="Target"> The target value. </param>
-        /// <param name="CompareAnd"> The value that is being compared to. </param>
+        /// <param name="Expected"> The value that is being compared to. </param>
         /// <returns> Whether the change succeded. </returns>
-        public bool SetWhen(bool Target, bool CompareAnd)
+        public bool SetWhen(bool Target, bool Expected)
         {
-            int comparand = CompareAnd ? TRUE : FALSE;
+            int comparand = Expected ? TRUE : FALSE;
             int result = Interlocked.CompareExchange(ref value, Target ? TRUE : FALSE, comparand);
-            return (result == TRUE) == CompareAnd;
+            return (result == TRUE) == Expected;
         }
         /// <summary>
         /// Attempt changing the value from False to True.
@@ -40,7 +40,7 @@ namespace ThreadPool
         /// <returns> Whether the change occured. </returns>
         public bool FalseToTrue()
         {
-            return SetWhen(false, true);
+            return SetWhen(true, false);
         }
         /// <summary>
         /// Attempt changing the value from True to False.
@@ -48,7 +48,7 @@ namespace ThreadPool
         /// <returns> Whether the change occured. </returns>
         public bool TrueToFalse()
         {
-            return SetWhen(true, false);
+            return SetWhen(false, true);
         }
         /// <summary>
         /// Attempts to switch the value.

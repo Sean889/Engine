@@ -10,7 +10,7 @@ namespace Shader
     /// <summary>
     /// Represents an OpenGL texture. It does not manage it in any way.
     /// </summary>
-    public struct Texture
+    public class Texture
     {
         /// <summary>
         /// The OpenGL texture id.
@@ -41,6 +41,14 @@ namespace Shader
             {
                 return TextureID != 0;
             }
+        }
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public Texture()
+        {
+
         }
     }
 }
