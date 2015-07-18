@@ -105,12 +105,12 @@ namespace RenderSystem
         public RenderThread(WindowType Window)
         {
             this.InternalWindow = Window;
-            Init();
         }
 
         internal void SetEngine(Engine e)
         {
             EventDispatcher = e.EventManager;
+            Init();
         }
 
         private void ThreadExecutor()
@@ -166,12 +166,12 @@ namespace RenderSystem
                         }
 
                         Action Act;
-                        while (Frame.TryDequeue(out Act))
+                        while(EssentialRenderTasks.TryDequeue(out Act))
                         {
                             Act();
                         }
 
-                        while(EssentialRenderTasks.TryDequeue(out Act))
+                        while (Frame.TryDequeue(out Act))
                         {
                             Act();
                         }

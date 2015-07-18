@@ -3,6 +3,8 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
 
+#pragma warning disable 1591
+
 namespace EngineSystem.Messaging
 {
 

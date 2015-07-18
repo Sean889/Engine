@@ -71,6 +71,8 @@ namespace MessageParser
             }
 
             Lines.Add("");
+            Lines.Add("#pragma warning disable 1591");
+            Lines.Add("");
             Lines.Add("namespace EngineSystem.Messaging");
             Lines.Add("{");
 

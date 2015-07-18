@@ -28,5 +28,5 @@ void main()
 	
 	mat3 TBN = mat3(tangent, bitangent, Texcoord0);
 	
-	Colour = texture(colour_texture, texcoord0).rgb * max(dot(light_dir, TBN * normal), 0.1);
+	Colour = texture(ColourTexture, Texcoord0).rgb * max(dot(RelLightDir, TBN * normal), 0.1);
 }

@@ -33,6 +33,8 @@ namespace PlanetLib
         }
     }
 
+#pragma warning disable 1591
+
     public class PlanetTexture
     {
         public Texture HeightTexture;

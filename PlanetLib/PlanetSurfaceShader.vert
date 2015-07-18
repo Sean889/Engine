@@ -16,5 +16,5 @@ smooth out vec3 Texcoord0;
 void main()
 {
 	Texcoord0 = Texcoord;
-	gl_Position = MVP * vec4(Vertex + (Texcoord * texture(BumoMap, Texcoord).x * (MaxDeform - MaxDeform * 0.5)), 1.0);
+	gl_Position = MVP * vec4(Vertex + (Texcoord * texture(BumpMap, Texcoord).x * (MaxDeform - MaxDeform * 0.5)), 1.0);
 }
