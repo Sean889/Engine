@@ -13,7 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		ComponentIDs.txt = ComponentIDs.txt
 		ComponentIDs.xml = ComponentIDs.xml
-		MessageIDs.txt = MessageIDs.txt
 		Messages.xml = Messages.xml
 		TODO.txt = TODO.txt
 		WorkList.txt = WorkList.txt

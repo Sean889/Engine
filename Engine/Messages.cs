@@ -13,11 +13,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class InvalidEvent : IEvent
 	{
-		public static readonly uint _Id = 0;
+		public static readonly uint Id = 0;
 		public readonly String Error;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public InvalidEvent( String Error)
 		{
@@ -30,11 +30,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class EntityCreatedEvent : IEvent
 	{
-		public static readonly uint _Id = 10;
+		public static readonly uint Id = 10;
 		public readonly Entity CreatedEntity;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public EntityCreatedEvent( Entity CreatedEntity)
 		{
@@ -47,11 +47,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class EntityDestroyedEvent : IEvent
 	{
-		public static readonly uint _Id = 11;
+		public static readonly uint Id = 11;
 		public readonly Entity DestroyedEntity;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public EntityDestroyedEvent( Entity DestroyedEntity)
 		{
@@ -64,12 +64,12 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class WindowResizeEvent : IEvent
 	{
-		public static readonly uint _Id = 30;
+		public static readonly uint Id = 30;
 		public readonly int SizeX;
 		public readonly int SizeY;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public WindowResizeEvent(int SizeX, int SizeY)
 		{
@@ -83,11 +83,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class WindowClosingEvent : IEvent
 	{
-		public static readonly uint _Id = 31;
+		public static readonly uint Id = 31;
 		public readonly System.ComponentModel.CancelEventArgs EventArgs;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public WindowClosingEvent( System.ComponentModel.CancelEventArgs EventArgs)
 		{
@@ -100,11 +100,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class MouseWheelEvent : IEvent
 	{
-		public static readonly uint _Id = 32;
+		public static readonly uint Id = 32;
 		public readonly MouseWheelEventArgs EventArgs;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public MouseWheelEvent( MouseWheelEventArgs EventArgs)
 		{
@@ -117,11 +117,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class MouseDownEvent : IEvent
 	{
-		public static readonly uint _Id = 33;
+		public static readonly uint Id = 33;
 		public readonly MouseButtonEventArgs EventArgs;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public MouseDownEvent( MouseButtonEventArgs EventArgs)
 		{
@@ -134,11 +134,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class MouseUpEvent : IEvent
 	{
-		public static readonly uint _Id = 34;
+		public static readonly uint Id = 34;
 		public readonly MouseButtonEventArgs EventArgs;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public MouseUpEvent( MouseButtonEventArgs EventArgs)
 		{
@@ -151,11 +151,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class MouseMoveEvent : IEvent
 	{
-		public static readonly uint _Id = 35;
+		public static readonly uint Id = 35;
 		public readonly MouseMoveEventArgs EventArgs;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public MouseMoveEvent( MouseMoveEventArgs EventArgs)
 		{
@@ -168,10 +168,10 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class MouseEnterEvent : IEvent
 	{
-		public static readonly uint _Id = 36;
+		public static readonly uint Id = 36;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public MouseEnterEvent()
 		{
@@ -183,11 +183,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class KeyPressedEvent : IEvent
 	{
-		public static readonly uint _Id = 37;
+		public static readonly uint Id = 37;
 		public readonly KeyPressEventArgs EventArgs;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public KeyPressedEvent( KeyPressEventArgs EventArgs)
 		{
@@ -200,11 +200,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class KeyDownEvent : IEvent
 	{
-		public static readonly uint _Id = 38;
+		public static readonly uint Id = 38;
 		public readonly OpenTK.Input.KeyboardKeyEventArgs EventArgs;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public KeyDownEvent( OpenTK.Input.KeyboardKeyEventArgs EventArgs)
 		{
@@ -217,11 +217,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class KeyUpEvent : IEvent
 	{
-		public static readonly uint _Id = 39;
+		public static readonly uint Id = 39;
 		public readonly OpenTK.Input.KeyboardKeyEventArgs EventArgs;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public KeyUpEvent( OpenTK.Input.KeyboardKeyEventArgs EventArgs)
 		{
@@ -234,11 +234,11 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class TitleChangedEvent : IEvent
 	{
-		public static readonly uint _Id = 40;
+		public static readonly uint Id = 40;
 		public readonly String NewTitle;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public TitleChangedEvent( String NewTitle)
 		{
@@ -251,12 +251,12 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class WindowMovedEvent : IEvent
 	{
-		public static readonly uint _Id = 41;
+		public static readonly uint Id = 41;
 		public readonly int NewPosX;
 		public readonly int NewPosY;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public WindowMovedEvent(int NewPosX, int NewPosY)
 		{
@@ -270,10 +270,10 @@ namespace EngineSystem.Messaging
 	/// </summary>
 	public class MouseLeaveEvent : IEvent
 	{
-		public static readonly uint _Id = 42;
+		public static readonly uint Id = 42;
 		public uint GetID()
 		{
-			return _Id;
+			return Id;
 		}
 		public MouseLeaveEvent()
 		{

@@ -71,7 +71,7 @@ namespace RenderSystem
         {
             EventManager = Sys.Engine.EventManager;
 
-            EventManager.AddEventHandler(WindowResizeEvent._Id, OnResize);
+            EventManager.AddEventHandler(WindowResizeEvent.Id, OnResize);
         }
         /// <summary>
         /// Called when the camera is no longer the active camera.
@@ -79,12 +79,12 @@ namespace RenderSystem
         /// <param name="Sys"></param>
         void ICamera.OnDeactive(GraphicsSystem Sys)
         {
-            EventManager.RemoveEventHandler(WindowResizeEvent._Id, OnResize);
+            EventManager.RemoveEventHandler(WindowResizeEvent.Id, OnResize);
         }
 
         private void OnResize(Object Sender, IEvent e)
         {
-            if(e.GetID() == WindowResizeEvent._Id)
+            if(e.GetID() == WindowResizeEvent.Id)
             {
                 WindowResizeEvent Event = e as WindowResizeEvent;
 

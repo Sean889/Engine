@@ -27,5 +27,10 @@ namespace EngineSystem
             Position = pos;
             Rotation = rot;
         }
+        public Coord()
+        {
+            Position = new Vec3d(0, 0, 0);
+            Rotation = new Quatd(0, 0, 0, 1);
+        }
     }
 }

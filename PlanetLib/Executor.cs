@@ -163,6 +163,8 @@ namespace PlanetLib
 
             Vector3 RelLightDir = Convert(Vector3d.Transform(LightDir, PlanetMat.ExtractRotation()));
 
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, IboID);
+
             unsafe
             {
                 foreach (DrawItem Item in Vbos)
@@ -215,7 +217,7 @@ namespace PlanetLib
 
         internal Executor(GraphicsSystem Sys, GLShader Shader)
         {
-            Sys.GraphicsThread.ScheduleRenderTask(new Action(delegate
+            Sys.GraphicsThread.ScheduleEssentialRenderTask(new Action(delegate
             {
                 IboID = GL.GenBuffer();
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, IboID);

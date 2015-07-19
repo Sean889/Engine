@@ -1,5 +1,6 @@
 ﻿using EngineSystem;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace RenderSystem
         private ICamera CurrentCamera;
         private ConcurrentQueue<ICamera> CameraUpdates = new ConcurrentQueue<ICamera>();
         internal Engine Engine;
+        private OpenTK.Graphics.Color4 InternalBackgroundColour = new OpenTK.Graphics.Color4(1, 1, 1, 1);
 
         void ISystem.Register(Engine Target)
         {
@@ -97,12 +99,30 @@ namespace RenderSystem
                 CameraUpdates.Enqueue(value);
             }
         }
+        /// <summary>
+        /// Gets or sets the clear colour of the window
+        /// </summary>
+        public OpenTK.Graphics.Color4 ClearColour
+        {
+            set
+            {
+                InternalBackgroundColour = value;
+                Thread.ScheduleEssentialRenderTask(new Action(delegate
+                {
+                    GL.ClearColor(value);
+                }));
+            }
+            get
+            {
+                return InternalBackgroundColour;
+            }
+        }
 
         /// <summary>
-        /// Creates a GraphicsSystem using the given window.
+        /// Creates a GraphicsSystem. Due to operating system limitations the GameWindow must be created on the rendering thread.
         /// </summary>
-        /// <param name="Win"></param>
-        public GraphicsSystem(GameWindow Win)
+        /// <param name="Win"> A function returning a window. Due to operating system limitations the window must be created on the rendering thread. </param>
+        public GraphicsSystem(Func<GameWindow> Win)
         {
             Thread = new RenderThread(Win);
         }
@@ -132,5 +152,6 @@ namespace RenderSystem
         {
             return Components;
         }
+
     }
 }

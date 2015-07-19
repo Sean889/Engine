@@ -98,7 +98,7 @@ namespace MessageParser
                     Lines.Add("\tpublic class " + Name.InnerText + " : IEvent");
                     Lines.Add("\t{");
 
-                    Lines.Add("\t\tpublic static readonly uint _Id = " + ID.InnerText + ";");
+                    Lines.Add("\t\tpublic static readonly uint Id = " + ID.InnerText + ";");
 
                     foreach (Pair<string, string> Field in Fields)
                     {
@@ -107,7 +107,7 @@ namespace MessageParser
 
                     Lines.Add("\t\tpublic uint GetID()");
                     Lines.Add("\t\t{");
-                    Lines.Add("\t\t\treturn _Id;");
+                    Lines.Add("\t\t\treturn Id;");
                     Lines.Add("\t\t}");
 
                     string Args = "\t\tpublic " + Name.InnerText + "(";

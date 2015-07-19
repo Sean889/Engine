@@ -30,8 +30,8 @@ namespace EngineSystem.Messaging
                 if (EventHandlers.TryGetValue(Event.GetID(), out Delegate))
                 {
                     Delegate.Fire(this, Event);
+                    ActiveEvents.Enqueue(Event.GetID());
                 }
-                ActiveEvents.Enqueue(Event.GetID());
             }
         }
         /// <summary>

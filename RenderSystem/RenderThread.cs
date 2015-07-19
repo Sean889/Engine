@@ -31,6 +31,7 @@ namespace RenderSystem
         private GameWindow InternalWindow;
         private Thread ExecutorThread;
         private EventManager EventDispatcher;
+        private Func<WindowType> WindowFunc;
 
         /// <summary>
         /// The OpenGL context attached to this rendering thread.
@@ -101,10 +102,10 @@ namespace RenderSystem
         /// <summary>
         /// Creates the rendering thread using the given GameWindow.
         /// </summary>
-        /// <param name="Window"> The window that the rendering thread will use. </param>
-        public RenderThread(WindowType Window)
+        /// <param name="WindowCreationFunc"> A function that returns the window. </param>
+        public RenderThread(Func<WindowType> WindowCreationFunc)
         {
-            this.InternalWindow = Window;
+            WindowFunc = WindowCreationFunc;
         }
 
         internal void SetEngine(Engine e)
@@ -115,6 +116,8 @@ namespace RenderSystem
 
         private void ThreadExecutor()
         {
+            this.InternalWindow = WindowFunc();
+
             Interlocked.MemoryBarrier();
 
             InternalWindow.MakeCurrent();
@@ -130,7 +133,8 @@ namespace RenderSystem
             Window.Move += (sender, e) => EventDispatcher.FireEvent(new WindowMovedEvent(Window.Location.X, Window.Location.Y));
 
             //Key events
-            Window.KeyPress += (sender, e) => EventDispatcher.FireEvent(new KeyPressedEvent(e));
+            Window.KeyPress += (sender, e) => 
+                EventDispatcher.FireEvent(new KeyPressedEvent(e));
             Window.KeyDown += (sender, e) => EventDispatcher.FireEvent(new KeyDownEvent(e));
             Window.KeyUp += (sender, e) => EventDispatcher.FireEvent(new KeyUpEvent(e));
 
@@ -141,7 +145,7 @@ namespace RenderSystem
             Window.MouseUp += (sender, e) => EventDispatcher.FireEvent(new MouseUpEvent(e));
             Window.MouseWheel += (sender, e) => EventDispatcher.FireEvent(new MouseWheelEvent(e));
             Window.MouseMove += (sender, e) => EventDispatcher.FireEvent(new MouseMoveEvent(e));
-
+            
             InternalWindow.RenderFrame += (sender, e) =>
                 {
                     if (TerminateFlag)
@@ -175,6 +179,8 @@ namespace RenderSystem
                         {
                             Act();
                         }
+
+                        Window.SwapBuffers();
                     }
                 };
 
