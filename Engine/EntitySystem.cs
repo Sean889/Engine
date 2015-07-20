@@ -72,15 +72,29 @@ namespace EngineSystem
                 }
             }
         }
+        /// <summary>
+        /// Destroys all the Entities controlled by the system.
+        /// </summary>
+        private void EngineDisposeCallback(Engine Sender, EventArgs Args)
+        {
+            foreach(var Entity in Entities)
+            {
+                Entity.Destroy();
+            }
+        }
 
         void ISystem.Register(Engine Eng)
         {
             Eng.OnUpdateEnd += UpdateEndCallback;
+            Eng.OnDispose += EngineDisposeCallback;
         }
 
         void ISystem.Unregister(Engine Target)
         {
             Target.OnUpdateEnd -= UpdateEndCallback;
+            Target.OnDispose -= EngineDisposeCallback;
         }
+
+
     }
 }

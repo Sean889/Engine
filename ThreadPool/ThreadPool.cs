@@ -5,6 +5,12 @@ using System.Threading;
 
 namespace ThreadPool
 {
+#if DEBUG
+    using ExceptionType = NullException;
+#else
+    using ExceptionType = Exception;
+#endif
+
     /// <summary>
     /// Class that manages the thread pool.
     /// </summary>
@@ -131,6 +137,7 @@ namespace ThreadPool
         /// </summary>
         public static void ExecuteSingleTask()
         {
+#if !DEBUG
             PromiseBase Promise;
             if(TaskQueue.TryDequeue(out Promise))
             {
@@ -140,6 +147,7 @@ namespace ThreadPool
             {
                 Promise.Execute();
             }
+#endif
         }
 
         /// <summary>
@@ -235,6 +243,18 @@ namespace ThreadPool
 
     }
 
+    [Serializable]
+    internal class NullException : Exception
+    {
+        public NullException() { }
+        public NullException(string message) : base(message) { }
+        public NullException(string message, Exception inner) : base(message, inner) { }
+        protected NullException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
+    }
+
     /// <summary>
     /// Interface through which the ThreadPoolManager interfaces with the tasks.
     /// </summary>
@@ -245,6 +265,7 @@ namespace ThreadPool
         /// </summary>
         void Execute();
     }
+
 
     /// <summary>
     /// A promise where the function has no return type.
@@ -299,7 +320,7 @@ namespace ThreadPool
                 {
                     Func();
                 }
-                catch(Exception e)
+                catch(ExceptionType e)
                 {
                     CaughtException = e;
                 }
@@ -371,7 +392,7 @@ namespace ThreadPool
                 {
                     RetValue = Func();
                 }
-                catch (Exception e)
+                catch (ExceptionType e)
                 {
                     CaughtException = e;
                 }
@@ -440,7 +461,7 @@ namespace ThreadPool
         {
             get
             {
-                return MyPromise.CaughtException != null && MyPromise.Complete.Value;
+                return MyPromise.CaughtException == null && MyPromise.Complete.Value;
             }
         }
         /// <summary>

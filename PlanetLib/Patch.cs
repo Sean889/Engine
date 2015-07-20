@@ -33,7 +33,7 @@ namespace PlanetLib
         internal const uint NUM_VERTICES = (SIDE_LEN * SIDE_LEN + SIDE_LEN * 4);
         internal const uint NUM_INDICES = (SIDE_LEN - 1) * (SIDE_LEN - 1) * 6 + 24 * (SIDE_LEN - 1);
 
-        private const uint PATCH_MULT = 8;
+        private const uint PATCH_MULT = 1;
         private const uint DIS_MULT = 1;
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace PlanetLib
         {
             get 
             {
-                return Nw == null;
+                return Nw != null;
             }
         }
         /// <summary>
@@ -213,10 +213,10 @@ namespace PlanetLib
 				else
 				{
 					//If the patch should not be merged, continue recursive check
-					bool r1 = CheckAndSubdivide(CamPos);
-					bool r2 = CheckAndSubdivide(CamPos);
-					bool r3 = CheckAndSubdivide(CamPos);
-					bool r4 = CheckAndSubdivide(CamPos);
+					bool r1 = Nw.CheckAndSubdivide(CamPos);
+					bool r2 = Ne.CheckAndSubdivide(CamPos);
+					bool r3 = Sw.CheckAndSubdivide(CamPos);
+					bool r4 = Se.CheckAndSubdivide(CamPos);
 
 					//Return results
 					return r1 || r2 || r3 || r4;

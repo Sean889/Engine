@@ -9,10 +9,11 @@ namespace EngineSystem
     /// <summary>
     /// The basic object type in the engine. This class cannot be inherited.
     /// </summary>
-    public sealed class Entity
+    public sealed class Entity : IDisposable
     {
         private const uint DEFAULT_PRIORITY = 1u;
 
+        private Threading.ThreadedEventHandler<Entity, EventArgs> DestroyEvent = new Threading.ThreadedEventHandler<Entity, EventArgs>();
         /// <summary>
         /// Position update queue.
         /// Second part of the pair is the priority of the update.
@@ -47,6 +48,20 @@ namespace EngineSystem
             set
             {
                 SetTransform(value, DEFAULT_PRIORITY);
+            }
+        }
+        /// <summary>
+        /// Executed when the Entity is destroyed.
+        /// </summary>
+        public event Threading.EventAction<Entity, EventArgs> OnEntityDestroy
+        {
+            add
+            {
+                DestroyEvent.AddEventListener(value);
+            }
+            remove
+            {
+                DestroyEvent.RemoveEventListener(value);
             }
         }
 
@@ -142,8 +157,8 @@ namespace EngineSystem
         /// Creates the Entity at the origin.
         /// </summary>
         public Entity()
-        { 
-
+        {
+            Engine.CurrentEngine.EntitySystem.AddEntity(this);
         }
         /// <summary>
         /// Creates the entity with the given transform.
@@ -152,6 +167,24 @@ namespace EngineSystem
         public Entity(Coord Transform)
         {
             InternalTransform = Transform;
+            Engine.CurrentEngine.EntitySystem.AddEntity(this);
+        }
+
+        /// <summary>
+        /// Destroys the entity.
+        /// </summary>
+        public void Destroy()
+        {
+            Engine.CurrentEngine.EntitySystem.RemoveEntity(this);
+            DestroyEvent.Fire(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Equivalent to calling Destroy()
+        /// </summary>
+        public void Dispose()
+        {
+            Destroy();
         }
     }
 }

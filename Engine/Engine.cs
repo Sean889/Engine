@@ -107,6 +107,18 @@ namespace EngineSystem
         private UpdateEndEventHandler InternalUpdateEndEvent = new UpdateEndEventHandler();
         private ThreadedEventHandler<Engine, EventArgs> InternalDisposeEvent = new ThreadedEventHandler<Engine, EventArgs>();
         private EventManager Manager = new EventManager();
+        private EntitySystem InternalEntitySystem = new EntitySystem();
+
+        /// <summary>
+        /// The EntitySystem associated with the engine.
+        /// </summary>
+        public EntitySystem EntitySystem
+        {
+            get
+            {
+                return InternalEntitySystem;
+            }
+        }
         
         /// <summary>
         /// Event that is triggered everytime the engine updates.
@@ -286,8 +298,10 @@ namespace EngineSystem
         {
             if (Initialized)
                 throw new EngineAlreadyCreatedException("An engine is still active.");
-            ThreadPool.ThreadPoolManager.Init();
+            ThreadPool.ThreadPoolManager.Init(0);
             InitStatics(this);
+            InternalEntitySystem = new EntitySystem();
+            AddSystem(InternalEntitySystem);
         }
         #endregion
     }

@@ -51,6 +51,7 @@ namespace PlanetLib
         public override void OnCreate(Entity e)
         {
             ManagedEntity = e;
+            PlanetSystem.AddPlanet(this);
         }
         
         /// <summary>
@@ -60,6 +61,7 @@ namespace PlanetLib
         public override void OnRemove(Entity e)
         {
             ManagedEntity = null;
+            PlanetSystem.RemovePlanet(this);
         }
 
         /// <summary>
@@ -80,8 +82,6 @@ namespace PlanetLib
             Executor = new Executor(Sys, Shader);
 
             Mesh = new PlanetMesh(Radius, Executor);
-
-            PlanetSystem.AddPlanet(this);
         }
 
         /// <summary>
@@ -122,7 +122,8 @@ namespace PlanetLib
 
         void IPlanet.Update()
         {
-            Mesh.CheckAndSubdivide(ParentSystem.Camera.GetTransform().Position);
+            if(Mesh != null)
+                Mesh.CheckAndSubdivide(ParentSystem.Camera.GetTransform().Position);
         }
 
 
