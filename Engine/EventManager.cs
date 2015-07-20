@@ -77,6 +77,10 @@ namespace EngineSystem.Messaging
         {
             Target.OnUpdateEnd += UpdateEnd;
         }
+        void ISystem.Unregister(Engine Target)
+        {
+            Target.OnUpdateEnd -= UpdateEnd;
+        }
 
         private void UpdateEnd(Engine Eng, EventArgs Args)
         {
@@ -109,5 +113,6 @@ namespace EngineSystem.Messaging
                 Handler.Fire(this, Event);
             }
         }
+
     }
 }

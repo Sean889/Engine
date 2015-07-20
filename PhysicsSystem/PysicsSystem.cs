@@ -30,17 +30,6 @@ namespace PhysicsSystem
             }
         }
 
-        /// <summary>
-        /// Registers the appropriate callbacks with the engine.
-        /// </summary>
-        /// <param name="Target"></param>
-        public void Register(Engine Target)
-        {
-            Target.OnUpdate += Update;
-            Target.OnUpdateEnd += UpdateEnd;
-            
-        }
-
         private void Update(Engine Sender, UpdateEventArgs Args)
         {
             foreach(BulletPhysicsComponent Component in Components)
@@ -145,6 +134,18 @@ namespace PhysicsSystem
         ~BulletPhysicsSystem()
         {
             World.Dispose();
+        }
+
+        void ISystem.Register(Engine Target)
+        {
+            Target.OnUpdate += Update;
+            Target.OnUpdateEnd += UpdateEnd;
+        }
+
+        void ISystem.Unregister(Engine Target)
+        {
+            Target.OnUpdate -= Update;
+            Target.OnUpdateEnd -= UpdateEnd;
         }
     }
 }

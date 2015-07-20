@@ -50,6 +50,7 @@
     <Compile Include="Entity.cs" />
     <Compile Include="EventHandler.cs" />
     <Compile Include="EventManager.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="IEntityComponent.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="ISystem.cs" />

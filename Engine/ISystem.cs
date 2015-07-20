@@ -12,5 +12,10 @@ namespace EngineSystem
         /// </summary>
         /// <param name="Target"> The engine to register with. </param>
         void Register(Engine Target);
+        /// <summary>
+        /// Allows the system to remove any callbacks within the Engine.
+        /// </summary>
+        /// <param name="Target"></param>
+        void Unregister(Engine Target);
     }
 }

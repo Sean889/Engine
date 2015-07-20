@@ -69,7 +69,7 @@ namespace RenderSystem
         /// <param name="Sys"></param>
         void ICamera.OnActive(GraphicsSystem Sys)
         {
-            EventManager = Sys.Engine.EventManager;
+            EventManager = Engine.CurrentEngine.EventManager;
 
             EventManager.AddEventHandler(WindowResizeEvent.Id, OnResize);
         }

@@ -2,11 +2,31 @@
 using EngineSystem.Threading;
 using System;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace EngineSystem
 {
     using UpdateEndEventHandler = MultithreadedEventHandler<Engine, EventArgs>;
     using UpdateEventHandler = MultithreadedEventHandler<Engine, UpdateEventArgs>;
+
+#pragma warning disable 1591
+
+    /// <summary>
+    /// Thrown if a engine is created when another already exists
+    /// </summary>
+    [Serializable]
+    public class EngineAlreadyCreatedException : Exception
+    {
+        public EngineAlreadyCreatedException() { }
+        public EngineAlreadyCreatedException(string message) : base(message) { }
+        public EngineAlreadyCreatedException(string message, Exception inner) : base(message, inner) { }
+        protected EngineAlreadyCreatedException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
+    }
+
+#pragma warning restore 1591
 
     /// <summary>
     /// Central engine class.
@@ -15,8 +35,67 @@ namespace EngineSystem
     /// </summary>
     public class Engine : IDisposable
     {
-        private static volatile int InitCount;
+        #region Static Members
+        private static volatile bool Initialized;
+        private static List<Action<Engine>> EngineCreateEvent = new List<Action<Engine>>();
+        private static Engine CurrentEngineInternal;
 
+        private static void InitStatics(Engine Eng)
+        {
+            CurrentEngine = Eng;
+            foreach(var val in EngineCreateEvent)
+            {
+                val(Eng);
+            }
+        }
+        private static void DisposeStatics()
+        {
+            EngineCreateEvent.Clear();
+            CurrentEngine = null;
+        }
+
+        /// <summary>
+        /// Allows for systems to lazily initialize themselves when the engine is created.
+        /// The callbacks for this event are wiped when the engine is destroyed
+        /// </summary>
+        public static event Action<Engine> OnEngineCreate
+        {
+            add
+            {
+                EngineCreateEvent.Add(value);
+            }
+            remove
+            {
+                EngineCreateEvent.Remove(value);
+            }
+        }
+
+        /// <summary>
+        /// The currently active engine.
+        /// </summary>
+        public static Engine CurrentEngine
+        {
+            get
+            {
+                return CurrentEngineInternal;
+            }
+            private set
+            {
+                CurrentEngineInternal = value;
+            }
+        }
+        /// <summary>
+        /// Whether the an engine is initialized.
+        /// </summary>
+        public static bool EngineActive
+        {
+            get
+            {
+                return CurrentEngine != null;
+            }
+        }
+        #endregion
+        #region Nonstatic Members
         /// <summary>
         /// Type that evaluates a condition.
         /// </summary>
@@ -178,18 +257,26 @@ namespace EngineSystem
         {
             System.Register(this);
         }
+        /// <summary>
+        /// Removes the system from the engine.
+        /// </summary>
+        /// <param name="System"></param>
+        public void RemoveSystem(ISystem System)
+        {
+            System.Unregister(this);
+        }
 
         /// <summary>
         /// Disposes of all engine resources that require disposing of.
-        /// Calls the OnDispose callback.
+        /// Calls the OnDispose callback. 
+        /// It is safe to create a new engine after this has been called.
         /// </summary>
         public void Dispose()
         {
             InternalDisposeEvent.Fire(this, new EventArgs());
-            if(--InitCount == 0)
-            {
-                ThreadPool.ThreadPoolManager.Terminate();
-            }
+            ThreadPool.ThreadPoolManager.Terminate();
+            Initialized = false;
+            DisposeStatics();
         }
          
         /// <summary>
@@ -197,11 +284,11 @@ namespace EngineSystem
         /// </summary>
         public Engine()
         {
-            int cnt = InitCount++;
-            if(cnt == 0)
-            {
-                ThreadPool.ThreadPoolManager.Init(0);
-            }
+            if (Initialized)
+                throw new EngineAlreadyCreatedException("An engine is still active.");
+            ThreadPool.ThreadPoolManager.Init();
+            InitStatics(this);
         }
+        #endregion
     }
 }

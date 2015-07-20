@@ -51,11 +51,13 @@
   <ItemGroup>
     <Compile Include="Buffer.cs" />
     <Compile Include="Executor.cs" />
+    <Compile Include="IPlanet.cs" />
     <Compile Include="MapGenerator.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="PlanetMesh.cs" />
     <Compile Include="PlanetSurfaceShader.cs" />
+    <Compile Include="PlanetSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,9 @@ namespace EngineSystem
             Position = pos;
             Rotation = rot;
         }
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Coord()
         {
             Position = new Vec3d(0, 0, 0);

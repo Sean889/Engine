@@ -18,7 +18,6 @@ namespace RenderSystem
         private ConcurrentQueue<GraphicsComponent> ToRemove = new ConcurrentQueue<GraphicsComponent>();
         private ICamera CurrentCamera;
         private ConcurrentQueue<ICamera> CameraUpdates = new ConcurrentQueue<ICamera>();
-        internal Engine Engine;
         private OpenTK.Graphics.Color4 InternalBackgroundColour = new OpenTK.Graphics.Color4(1, 1, 1, 1);
 
         void ISystem.Register(Engine Target)
@@ -28,8 +27,12 @@ namespace RenderSystem
             Target.OnUpdate += Update;
             Target.OnUpdateEnd += UpdateEnd;
             Target.OnDispose += OnEngineDispose;
-
-            Engine = Target;
+        }
+        void ISystem.Unregister(Engine Target)
+        {
+            Target.OnUpdate -= Update;
+            Target.OnUpdateEnd -= UpdateEnd;
+            Target.OnDispose -= OnEngineDispose;
         }
 
         private void OnEngineDispose(Engine Sender, EventArgs Args)

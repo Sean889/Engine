@@ -73,13 +73,14 @@ namespace EngineSystem
             }
         }
 
-        /// <summary>
-        /// Registers callbacks within the engine.
-        /// </summary>
-        /// <param name="Eng"> The engine with which to register the callback. </param>
-        public void Register(Engine Eng)
+        void ISystem.Register(Engine Eng)
         {
             Eng.OnUpdateEnd += UpdateEndCallback;
+        }
+
+        void ISystem.Unregister(Engine Target)
+        {
+            Target.OnUpdateEnd -= UpdateEndCallback;
         }
     }
 }

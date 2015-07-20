@@ -17,7 +17,7 @@ namespace PlanetLib
     /// Component that manages a planet.
     /// This makes the entity that the component was attached to a planet.
     /// </summary>
-    public class PlanetComponent : GraphicsComponent
+    public sealed class PlanetComponent : GraphicsComponent, IPlanet
     {
         /// <summary>
         /// The entity this component is attached to.
@@ -80,6 +80,8 @@ namespace PlanetLib
             Executor = new Executor(Sys, Shader);
 
             Mesh = new PlanetMesh(Radius, Executor);
+
+            PlanetSystem.AddPlanet(this);
         }
 
         /// <summary>
@@ -117,5 +119,12 @@ namespace PlanetLib
             BumpTexture = bump_texture;
             NormalTexture = normal_texture;
         }
+
+        void IPlanet.Update()
+        {
+            Mesh.CheckAndSubdivide(ParentSystem.Camera.GetTransform().Position);
+        }
+
+
     }
 }
