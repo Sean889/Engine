@@ -20,9 +20,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderSystem", "RenderSystem\RenderSystem.csproj", "{CFF3A588-8ECB-4D3A-969D-95792355B9BC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{6D0D55C2-3CA8-4A52-ABAA-D309FAFD70B2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Util", "Util", "{6D0D55C2-3CA8-4A52-ABAA-D309FAFD70B2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetLib", "PlanetLib\PlanetLib.csproj", "{88E1C015-3039-445D-8888-A36BC7D14F78}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4} = {AC82D26D-B6CC-4894-BE7D-E787A4BB53F4}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shader", "ShaderRuntime\Shader.csproj", "{EA885744-98D1-4317-B700-BC06857B20A3}"
 EndProject
@@ -33,6 +36,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibPlanetTest", "Test\LibPlanetTest\LibPlanetTest.csproj", "{FD07418C-54F0-4E8E-9EEC-AFDEF6DE9418}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageParser", "Utils\MessageParser\MessageParser.csproj", "{F7D9987A-1250-411D-B02B-8D5275013A3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{39029421-16AD-4456-B98E-C278D34AC7DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawElementsTest", "UnitTest\DrawElementsTest\DrawElementsTest.csproj", "{978A6617-4D26-4FB3-95B1-D93C119FA386}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4} = {AC82D26D-B6CC-4894-BE7D-E787A4BB53F4}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +86,10 @@ Global
 		{F7D9987A-1250-411D-B02B-8D5275013A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7D9987A-1250-411D-B02B-8D5275013A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7D9987A-1250-411D-B02B-8D5275013A3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{978A6617-4D26-4FB3-95B1-D93C119FA386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{978A6617-4D26-4FB3-95B1-D93C119FA386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{978A6617-4D26-4FB3-95B1-D93C119FA386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{978A6617-4D26-4FB3-95B1-D93C119FA386}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,5 +98,6 @@ Global
 		{AC82D26D-B6CC-4894-BE7D-E787A4BB53F4} = {6D0D55C2-3CA8-4A52-ABAA-D309FAFD70B2}
 		{FD07418C-54F0-4E8E-9EEC-AFDEF6DE9418} = {A6031896-739F-4F2F-8B94-EC90FB3BFC37}
 		{F7D9987A-1250-411D-B02B-8D5275013A3C} = {6D0D55C2-3CA8-4A52-ABAA-D309FAFD70B2}
+		{978A6617-4D26-4FB3-95B1-D93C119FA386} = {39029421-16AD-4456-B98E-C278D34AC7DC}
 	EndGlobalSection
 EndGlobal
