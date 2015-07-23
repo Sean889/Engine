@@ -88,7 +88,6 @@ namespace EngineSystem
             Eng.OnUpdateEnd += UpdateEndCallback;
             Eng.OnDispose += EngineDisposeCallback;
         }
-
         void ISystem.Unregister(Engine Target)
         {
             Target.OnUpdateEnd -= UpdateEndCallback;

@@ -305,7 +305,14 @@ namespace ShaderGenerator
             CurrentToken = NextToken;
             NextToken = NextNextToken;
 
-            EmitTokenInternal();
+            try
+            {
+                EmitTokenInternal();
+            }
+            catch(IndexOutOfRangeException e)
+            {
+                throw new Program.ParseFailedException();
+            }
         }
 
         private void EmitTokenInternal()
@@ -364,7 +371,7 @@ namespace ShaderGenerator
             if (StartsWith(" ", "\t", "\n", "\r"))
             {
                 int Position = 1;
-                while (InputString[Position] == ' ' || InputString[Position] == '\t' || InputString[Position] == '\n' || InputString[Position] == '\r')
+                while (Position < InputString.Length && (InputString[Position] == ' ' || InputString[Position] == '\t' || InputString[Position] == '\n' || InputString[Position] == '\r'))
                 {
                     Position++;
                 }

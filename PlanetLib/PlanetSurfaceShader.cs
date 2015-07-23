@@ -21,7 +21,6 @@ namespace Shaders
         public static int __RelLightDir;
         public static int __ColourTexture;
         public static int __NormalTexture;
-        public static int __Texcoord0;
         public float uniform_MaxDeform;
         public OpenTK.Matrix4 uniform_MVP;
         public OpenTK.Matrix4 uniform_LightRotation;
@@ -66,7 +65,6 @@ namespace Shaders
             __RelLightDir = GL.GetUniformLocation(prg, "RelLightDir");
             __ColourTexture = GL.GetUniformLocation(prg, "ColourTexture");
             __NormalTexture = GL.GetUniformLocation(prg, "NormalTexture");
-            __Texcoord0 = GL.GetAttribLocation(prg, "Texcoord0");
             ProgramID = prg;
         }
         public void Compile()
@@ -162,8 +160,6 @@ namespace Shaders
                     return __ColourTexture;
                 case "NormalTexture":
                     return __NormalTexture;
-                case "Texcoord0":
-                    return __Texcoord0;
                 default:
                     throw new InvalidIdentifierException("There is no parameter named " + name + ".");
             }
@@ -183,6 +179,8 @@ namespace Shaders
             GL.UseProgram(ProgramID);
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(uniform_BumpMap.Target, uniform_BumpMap.TextureID);
+            GL.EnableVertexAttribArray(__Vertex);
+            GL.EnableVertexAttribArray(__Texcoord);
             GL.ActiveTexture(TextureUnit.Texture1);
             GL.BindTexture(uniform_ColourTexture.Target, uniform_ColourTexture.TextureID);
             GL.ActiveTexture(TextureUnit.Texture2);

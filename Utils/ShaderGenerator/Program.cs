@@ -9,11 +9,6 @@ namespace ShaderGenerator
 {
     class Program
     {
-        int Generic<T>(T input)
-        {
-            return (int)(object)input;
-        }
-
 #pragma warning disable 168
         struct Property
         {
@@ -105,6 +100,17 @@ namespace ShaderGenerator
             public InvalidTypeException(string message) : base(message) { }
             public InvalidTypeException(string message, Exception inner) : base(message, inner) { }
             protected InvalidTypeException(
+              System.Runtime.Serialization.SerializationInfo info,
+              System.Runtime.Serialization.StreamingContext context)
+                : base(info, context) { }
+        }
+        [Serializable]
+        public class ParseFailedException : Exception
+        {
+            public ParseFailedException() { }
+            public ParseFailedException(string message) : base(message) { }
+            public ParseFailedException(string message, Exception inner) : base(message, inner) { }
+            protected ParseFailedException(
               System.Runtime.Serialization.SerializationInfo info,
               System.Runtime.Serialization.StreamingContext context)
                 : base(info, context) { }
@@ -368,12 +374,6 @@ namespace ShaderGenerator
                         }
                     }
 
-                    foreach(Pair<string, string> p in Parser.In)
-                    {
-                        if(!Positions.Contains(new Pair<string, Type>(p.first, Type.In)))
-                            Positions.Add(new Pair<string, Type>(p.first, Type.In));
-                    }
-
                     foreach (string str in Parser.Preprocessor)
                     {
                         string formatted = Regex.Replace(str, "//s+", " ");
@@ -391,11 +391,14 @@ namespace ShaderGenerator
                         }
                     }
 
-                    if (GetShaderType(stage) == "Vertex")
+                    if (GetShaderType(stage) == "OpenTK.Graphics.OpenGL.ShaderType.VertexShader")
                     {
                         foreach (Pair<string, string> p in Parser.In)
                         {
-                            Positions.Add(new Pair<string, Type>(p.first, Type.In));
+                            if (!Positions.Contains(new Pair<string, Type>(p.first, Type.In)))
+                            {
+                                Positions.Add(new Pair<string, Type>(p.first, Type.In));
+                            }
                             InitCommands.Add("GL.EnableVertexAttribArray(__" + p.first + ");");
                         }
                     }
@@ -416,11 +419,15 @@ namespace ShaderGenerator
                 }
                 catch (StageIdentifierMissingException e)
                 {
-                    Console.WriteLine("File " + args[1] + " does not specify which stage it is.");
+                    Console.WriteLine("File " + args[i] + " does not specify which stage it is.");
                 }
                 catch (InvalidTypeException e)
                 {
 
+                }
+                catch (ParseFailedException e)
+                {
+                    Console.WriteLine("Parse failed while parsing " + args[i] + ".");
                 }
             }
             #endregion
