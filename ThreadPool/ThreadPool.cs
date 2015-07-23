@@ -67,7 +67,7 @@ namespace ThreadPool
         /// <param name="NumThreads"> The number of threads to initialize the thread pool with. </param>
         public static void Init(int NumThreads)
         {
-            NumThreads = NumThreads < 1 ? 1 : NumThreads;
+            NumThreads = NumThreads < 0 ? 0 : NumThreads;
 
             TaskQueue = new ConcurrentQueue<PromiseBase>();
             BackgroundTaskQueue = new ConcurrentQueue<PromiseBase>();
@@ -75,15 +75,22 @@ namespace ThreadPool
             TerminateFlag = false;
             Event = new AutoResetEvent(false);
             BackgroundEvent = new AutoResetEvent(false);
-
+           
+#if !DEBUG
             {
                 // Create the background thread
                 Thread t = new Thread(new ThreadStart(BackgroundThreadExecutor));
                 t.Start();
                 Threads.Add(t);
             }
-
-            for(int i = 1; i < NumThreads; i++)
+#endif
+            for(
+#if DEBUG
+                int i = 0;
+#else
+                int i = 1; 
+#endif
+                i < NumThreads; i++)
             {
                 //Create the normal threadpool threads
                 Thread t = new Thread(new ThreadStart(ThreadExecutor));
@@ -137,7 +144,6 @@ namespace ThreadPool
         /// </summary>
         public static void ExecuteSingleTask()
         {
-#if !DEBUG
             PromiseBase Promise;
             if(TaskQueue.TryDequeue(out Promise))
             {
@@ -147,7 +153,6 @@ namespace ThreadPool
             {
                 Promise.Execute();
             }
-#endif
         }
 
         /// <summary>
