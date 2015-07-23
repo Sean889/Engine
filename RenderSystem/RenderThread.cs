@@ -10,6 +10,114 @@ using EngineSystem.Messaging;
 namespace RenderSystem
 {
     using WindowType = GameWindow;
+
+    /// <summary>
+    /// The parameters governing what type of game window is created on the rendering thread.
+    /// </summary>
+    public struct WindowParams
+    {
+        /// <summary>
+        /// The height of the window in pixels.
+        /// </summary>
+        public int Height;
+        /// <summary>
+        /// The width of the window in pixels.
+        /// </summary>
+        public int Width;
+        /// <summary>
+        /// The titke of the window.
+        /// </summary>
+        public string Title;
+        /// <summary>
+        /// The major version of the created OpenGL context.
+        /// </summary>
+        public int GLMajorVersion;
+        /// <summary>
+        /// Thi minor version of the OpenGL context.
+        /// </summary>
+        public int GLMinorVersion;
+        /// <summary>
+        /// Flags governing the type of the window.
+        /// </summary>
+        public GameWindowFlags WindowFlags;
+        /// <summary>
+        /// Flags governing the type of context that will be created.
+        /// </summary>
+        public GraphicsContextFlags ContextFlags;
+        /// <summary>
+        /// The graphics mode of the window.
+        /// </summary>
+        public GraphicsMode Mode;
+        /// <summary>
+        /// The DisplayDevice that the window will be displayed on.
+        /// </summary>
+        public DisplayDevice Device;
+
+        /// <summary>
+        /// Creates a Window with the desired width and height.
+        /// </summary>
+        /// <param name="Width"></param>
+        /// <param name="Height"></param>
+        public WindowParams(int Width, int Height)
+           : this(Width, Height, "Game Window")
+        {
+
+        }
+        /// <summary>
+        /// Creates a window with the given width, height and title.
+        /// </summary>
+        /// <param name="Width"></param>
+        /// <param name="Height"></param>
+        /// <param name="Title"></param>
+        public WindowParams(int Width, int Height, string Title)
+            : this(Width, Height, Title, 3, 0)
+        {
+
+        }
+        /// <summary>
+        /// Creates a window with the given width, height, title, and OpenGL context version.
+        /// </summary>
+        /// <param name="Width"></param>
+        /// <param name="Height"></param>
+        /// <param name="Title"></param>
+        /// <param name="GLMajorVersion"></param>
+        /// <param name="GLMinorVersion"></param>
+        public WindowParams(int Width, int Height, string Title, int GLMajorVersion, int GLMinorVersion)
+            : this(Width, Height, Title, GLMajorVersion, GLMinorVersion, GameWindowFlags.Default)
+        {
+
+        }
+        /// <summary>
+        /// Creates a window with the given width, height, title, OpenGL context version and GameWindowFlags.
+        /// </summary>
+        /// <param name="Width"></param>
+        /// <param name="Height"></param>
+        /// <param name="Title"></param>
+        /// <param name="GLMajorVersion"></param>
+        /// <param name="GLMinorVersion"></param>
+        /// <param name="Flags"></param>
+        public WindowParams(int Width, int Height, string Title, int GLMajorVersion, int GLMinorVersion, GameWindowFlags Flags)
+        {
+            this.Width = Width;
+            this.Height = Height;
+            this.Title = Title;
+            this.GLMajorVersion = GLMajorVersion;
+            this.GLMinorVersion = GLMinorVersion;
+            this.WindowFlags = Flags;
+            this.ContextFlags = GraphicsContextFlags.Default;
+            this.Mode = GraphicsMode.Default;
+            this.Device = DisplayDevice.Default;
+        }
+
+        internal WindowType Window
+        {
+            get
+            {
+                return new WindowType(Width, Height, Mode, Title, WindowFlags, Device, GLMajorVersion, GLMinorVersion, ContextFlags);
+            }
+        }
+    }
+
     /// <summary>
     /// A thread that executes all the rendering tasks.
     /// </summary>
@@ -31,7 +139,7 @@ namespace RenderSystem
         private GameWindow InternalWindow;
         private Thread ExecutorThread;
         private EventManager EventDispatcher;
-        private Func<WindowType> WindowFunc;
+        private WindowParams Info;
 
         /// <summary>
         /// The OpenGL context attached to this rendering thread.
@@ -102,10 +210,10 @@ namespace RenderSystem
         /// <summary>
         /// Creates the rendering thread using the given GameWindow.
         /// </summary>
-        /// <param name="WindowCreationFunc"> A function that returns the window. </param>
-        public RenderThread(Func<WindowType> WindowCreationFunc)
+        /// <param name="Info"> A group of parameters for the window. </param>
+        public RenderThread(WindowParams Info)
         {
-            WindowFunc = WindowCreationFunc;
+            this.Info = Info;
         }
 
         internal void SetEngine(Engine e)
@@ -116,7 +224,7 @@ namespace RenderSystem
 
         private void ThreadExecutor()
         {
-            this.InternalWindow = WindowFunc();
+            this.InternalWindow = Info.Window;
 
             Interlocked.MemoryBarrier();
 

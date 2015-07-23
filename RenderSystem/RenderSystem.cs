@@ -124,8 +124,8 @@ namespace RenderSystem
         /// <summary>
         /// Creates a GraphicsSystem. Due to operating system limitations the GameWindow must be created on the rendering thread.
         /// </summary>
-        /// <param name="Win"> A function returning a window. Due to operating system limitations the window must be created on the rendering thread. </param>
-        public GraphicsSystem(Func<GameWindow> Win)
+        /// <param name="Win"> A struct containing all the parameters for creating the window. </param>
+        public GraphicsSystem(WindowParams Win)
         {
             Thread = new RenderThread(Win);
         }
