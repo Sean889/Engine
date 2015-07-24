@@ -80,7 +80,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>$(SolutionDir)\Utils\ShaderGenerator\bin\Release\ShaderGenerator.exe $(ProjectDir)\PlanetSurfaceShader.cs $(ProjectDir)\PlanetSurfaceShader.vert $(ProjectDir)\PlanetSurfaceShader.frag</PreBuildEvent>
+    <PreBuildEvent>$(SolutionDir)\Utils\ShaderGenerator\bin\$(ConfigurationName)\ShaderGenerator.exe $(ProjectDir)\PlanetSurfaceShader.cs $(ProjectDir)\PlanetSurfaceShader.vert $(ProjectDir)\PlanetSurfaceShader.frag</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

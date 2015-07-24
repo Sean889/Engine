@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shader
+namespace ShaderRuntime
 {
     [Serializable]
     public class InvalidParameterTypeException : Exception
@@ -37,6 +37,18 @@ namespace Shader
         public ShaderNotInitializedException(string message) : base(message) { }
         public ShaderNotInitializedException(string message, Exception inner) : base(message, inner) { }
         protected ShaderNotInitializedException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
+    }
+
+    [Serializable]
+    public class ShaderNotSupportedException : Exception
+    {
+        public ShaderNotSupportedException() { }
+        public ShaderNotSupportedException(string message) : base(message) { }
+        public ShaderNotSupportedException(string message, Exception inner) : base(message, inner) { }
+        protected ShaderNotSupportedException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }

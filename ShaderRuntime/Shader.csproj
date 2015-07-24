@@ -42,9 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttribArray.cs" />
     <Compile Include="Exceptions.cs" />
-    <Compile Include="IGLShader.cs" />
+    <Compile Include="GLShader.cs" />
     <Compile Include="Counter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Texture.cs" />

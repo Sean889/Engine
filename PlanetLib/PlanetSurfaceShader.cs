@@ -3,7 +3,7 @@
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Diagnostics;
-using Shader;
+using ShaderRuntime;
 
 #pragma warning disable 168
 
@@ -12,6 +12,13 @@ namespace Shaders
     class PlanetSurfaceShader : GLShader
     {
         public bool TransposeMatrix = false;
+        public static bool ImplementationSupportsShaders
+        {
+            get
+            {
+                return (new Version(GL.GetString(StringName.Version).Substring(0, 3)) >= new Version(2, 0) ? true : false);
+            }
+        }
         public static int __MaxDeform;
         public static int __MVP;
         public static int __LightRotation;
@@ -195,6 +202,13 @@ namespace Shaders
         public void Dispose()
         {
             Ctr--;
+        }
+        public bool IsSupported
+        {
+            get
+            {
+                return ImplementationSupportsShaders;
+            }
         }
     }
 }

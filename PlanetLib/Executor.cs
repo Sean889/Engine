@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK;
 using EngineSystem;
 using RenderSystem;
-using Shader;
+using ShaderRuntime;
 
 using TP = ThreadPool.ThreadPoolManager;
 

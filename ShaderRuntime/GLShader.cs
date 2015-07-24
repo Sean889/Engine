@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 
-namespace Shader
+namespace ShaderRuntime
 {
     public interface GLShader : IDisposable
     {
@@ -46,5 +46,13 @@ namespace Shader
         /// </summary>
         /// <returns></returns>
         int GetShaderID();
+        
+        /// <summary>
+        /// Whether the shader is supported on this platform. The OpenG version has to higher than 2.0 for shaders to be available.
+        /// </summary>
+        bool IsSupported
+        {
+            get;
+        }
     }
 }

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ShaderGenerator
 {
+#pragma warning disable 168
+
     class Token
     {
         public string Text;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using EngineSystem;
 using RenderSystem;
 using OpenTK;
-using Shader;
+using ShaderRuntime;
 using OpenTK.Graphics.OpenGL;
 using Shaders;
 

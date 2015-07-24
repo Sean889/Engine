@@ -437,7 +437,7 @@ namespace ShaderGenerator
             Lines.Add("using OpenTK.Graphics.OpenGL;");
             Lines.Add("using System;");
             Lines.Add("using System.Diagnostics;");
-            Lines.Add("using Shader;");
+            Lines.Add("using ShaderRuntime;");
             Lines.Add("");
             Lines.Add("#pragma warning disable 168");
             Lines.Add("");
@@ -446,8 +446,16 @@ namespace ShaderGenerator
             Lines.Add("\tclass " + name + " : GLShader");
             Lines.Add("\t{");
             Lines.Add("\t\tpublic bool TransposeMatrix = false;");
-            
 
+            #region ImplementationSupportsShaders
+            Lines.Add("\t\tpublic static bool ImplementationSupportsShaders");
+            Lines.Add("\t\t{");
+            Lines.Add("\t\t\tget");
+            Lines.Add("\t\t\t{");
+            Lines.Add("\t\t\t\treturn (new Version(GL.GetString(StringName.Version).Substring(0, 3)) >= new Version(2, 0) ? true : false);");
+            Lines.Add("\t\t\t}");
+            Lines.Add("\t\t}");
+            #endregion
             #region Properties
             foreach (Pair<string, Type> p in Positions)
             {
@@ -757,6 +765,15 @@ namespace ShaderGenerator
             Lines.Add("\t\tpublic void Dispose()");
             Lines.Add("\t\t{");
             Lines.Add("\t\t\tCtr--;");
+            Lines.Add("\t\t}");
+            #endregion
+            #region IsSupported
+            Lines.Add("\t\tpublic bool IsSupported");
+            Lines.Add("\t\t{");
+            Lines.Add("\t\t\tget");
+            Lines.Add("\t\t\t{");
+            Lines.Add("\t\t\t\treturn ImplementationSupportsShaders;");
+            Lines.Add("\t\t\t}");
             Lines.Add("\t\t}");
             #endregion
 
