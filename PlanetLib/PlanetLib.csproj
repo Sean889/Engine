@@ -69,9 +69,9 @@
       <Project>{cff3a588-8ecb-4d3a-969d-95792355b9bc}</Project>
       <Name>RenderSystem</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ShaderRuntime\Shader.csproj">
+    <ProjectReference Include="..\ShaderRuntime\ShaderRuntime.csproj">
       <Project>{ea885744-98d1-4317-b700-bc06857b20a3}</Project>
-      <Name>Shader</Name>
+      <Name>ShaderRuntime</Name>
     </ProjectReference>
     <ProjectReference Include="..\ThreadPool\ThreadPool.csproj">
       <Project>{ec9a48ca-1aa8-49ea-9cc2-e4f6f36e6416}</Project>

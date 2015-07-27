@@ -241,8 +241,7 @@ namespace RenderSystem
             Window.Move += (sender, e) => EventDispatcher.FireEvent(new WindowMovedEvent(Window.Location.X, Window.Location.Y));
 
             //Key events
-            Window.KeyPress += (sender, e) => 
-                EventDispatcher.FireEvent(new KeyPressedEvent(e));
+            Window.KeyPress += (sender, e) => EventDispatcher.FireEvent(new KeyPressedEvent(e));
             Window.KeyDown += (sender, e) => EventDispatcher.FireEvent(new KeyDownEvent(e));
             Window.KeyUp += (sender, e) => EventDispatcher.FireEvent(new KeyUpEvent(e));
 
@@ -256,6 +255,9 @@ namespace RenderSystem
             
             InternalWindow.RenderFrame += (sender, e) =>
                 {
+                    Window.SwapBuffers();
+                    GL.Clear(ClearBufferMask.StencilBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
+
                     if (TerminateFlag)
                     {
                         Window.Close();
@@ -287,8 +289,6 @@ namespace RenderSystem
                         {
                             Act();
                         }
-
-                        Window.SwapBuffers();
                     }
                 };
 
