@@ -252,6 +252,8 @@ namespace RenderSystem
             Window.MouseUp += (sender, e) => EventDispatcher.FireEvent(new MouseUpEvent(e));
             Window.MouseWheel += (sender, e) => EventDispatcher.FireEvent(new MouseWheelEvent(e));
             Window.MouseMove += (sender, e) => EventDispatcher.FireEvent(new MouseMoveEvent(e));
+
+            Window.Closing += (sender, e) => EventDispatcher.FireEvent(new WindowClosingEvent(e));
             
             InternalWindow.RenderFrame += (sender, e) =>
                 {
