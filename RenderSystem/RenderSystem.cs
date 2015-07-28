@@ -37,6 +37,13 @@ namespace RenderSystem
 
         private void OnEngineDispose(Engine Sender, EventArgs Args)
         {
+            foreach(GraphicsComponent Component in Components)
+            {
+                Component.__OnRenderRemove(this);
+            }
+
+            Components.Clear();
+
             Thread.Dispose();
         }
 

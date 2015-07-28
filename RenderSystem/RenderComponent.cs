@@ -73,6 +73,7 @@ namespace RenderSystem
         internal void __OnRenderRemove(GraphicsSystem Sys)
         {
             OnRenderRemove(Sys);
+            ParentSystem = null;
         }
     }
 }
