@@ -318,8 +318,11 @@ namespace ShaderGenerator
 
         static void Main(string[] args)
         {
+            if (args.Length < 1)
+                return;
+
             List<string> Lines = new List<string>();
-            string name = "__UnnamedShader" + Convert.ToString((uint)(new Random().NextDouble() * 10000.0));
+            string name = "__UnnamedShader" + Convert.ToString(args[0].GetHashCode());
 
             List<Property> Properties = new List<Property>();
             List<string> InitCommands = new List<string>();
@@ -391,6 +394,16 @@ namespace ShaderGenerator
                         }
                     }
 
+                    if(stage == null)
+                    {
+                        if (args[i].EndsWith(".vert", StringComparison.OrdinalIgnoreCase))
+                            stage = "Vertex";
+                        else if (args[i].EndsWith(".frag", StringComparison.OrdinalIgnoreCase))
+                            stage = "Fragment";
+                        else if (args[i].EndsWith(".geom", StringComparison.OrdinalIgnoreCase))
+                            stage = "Geometry";
+                    }
+
                     if (GetShaderType(stage) == "OpenTK.Graphics.OpenGL.ShaderType.VertexShader")
                     {
                         foreach (Pair<string, string> p in Parser.In)
@@ -407,27 +420,32 @@ namespace ShaderGenerator
                 }
                 catch (InvalidTokenException e)
                 {
+                    throw new Exception("Faliure");
 
                 }
                 catch (InvalidShaderTypeException e)
                 {
+                    throw new Exception("Faliure");
 
                 }
                 catch (FileNotFoundException e)
                 {
                     Console.WriteLine("File " + args[i] + " was not found.");
+                    throw new Exception("Faliure");
                 }
                 catch (StageIdentifierMissingException e)
                 {
                     Console.WriteLine("File " + args[i] + " does not specify which stage it is.");
+                    throw new Exception("Faliure");
                 }
                 catch (InvalidTypeException e)
                 {
-
+                    throw new Exception("Faliure");
                 }
                 catch (ParseFailedException e)
                 {
                     Console.WriteLine("Parse failed while parsing " + args[i] + ".");
+                    throw new Exception("Faliure");
                 }
             }
             #endregion
